@@ -3,6 +3,8 @@ import { Search, ShoppingCartOutlined } from "@mui/icons-material"
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import { useNavigate } from "react-router-dom";
+
 
 const Container = styled.div`
   height: 60px;
@@ -67,7 +69,21 @@ const MenuItem = styled.div`
 `;
 
 const Navbar = () => {
-  return (
+  let navigate = useNavigate()
+  function Logging(){
+    navigate("/login")
+  }
+
+  function Register(){
+    navigate("/register")
+  }
+
+  function Home(){
+    navigate("/")
+  }
+
+  return ( 
+    <>
     <Container>
       <Wrapper>
         <Left>
@@ -78,11 +94,11 @@ const Navbar = () => {
           </SearchContainer>
         </Left>
         <Center>
-          <Logo>E-SHOP</Logo>
+          <Logo onClick={Home}>E-SHOP</Logo>
         </Center>
         <Right>
-          <MenuItem>REGISTER</MenuItem>
-          <MenuItem>SIGN IN</MenuItem>
+          <MenuItem onClick={Register}>Register</MenuItem>
+          <MenuItem onClick={Logging}>Log In</MenuItem>
           <MenuItem>
             <Badge badgeContent={4} color="primary">
               <ShoppingCartOutlined />
@@ -91,6 +107,7 @@ const Navbar = () => {
         </Right>
       </Wrapper>
     </Container>
+    </>
   );
 };
 

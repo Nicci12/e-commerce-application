@@ -1,49 +1,17 @@
 import styled from "styled-components";
-import { mobile } from "../responsive";
-
-const Container = styled.div`
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(
-      rgba(255, 255, 255, 0.5),
-      rgba(255, 255, 255, 0.5)
-    ),
-    url("https://images.pexels.com/photos/6984661/pexels-photo-6984661.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
-      center;
-  background-size: cover;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Wrapper = styled.div`
-  width: 40%;
-  padding: 20px;
-  background-color: white;
-  ${mobile({ width: "75%" })}
-`;
-
-const Title = styled.h1`
-  font-size: 24px;
-  font-weight: 300;
-`;
-
-const Form = styled.form`
-  display: flex;
-  flex-wrap: wrap;
-`;
-
-const Input = styled.input`
-  flex: 1;
-  min-width: 40%;
-  margin: 20px 10px 0px 0px;
-  padding: 10px;
-`;
-
-const Agreement = styled.span`
-  font-size: 12px;
-  margin: 20px 0px;
-`;
+import React from "react";
+import {
+  MDBContainer,
+  MDBCard,
+  MDBCardBody,
+  MDBInput,
+  MDBRow,
+  MDBCol,
+  MDBCheckbox,
+} from "mdb-react-ui-kit";
+import Navbar from "../components/Navbar";
+import Social from "../components/Socials";
+import { useNavigate } from "react-router-dom";
 
 const Button = styled.button`
   width: 40%;
@@ -52,28 +20,91 @@ const Button = styled.button`
   background-color: teal;
   color: white;
   cursor: pointer;
+  margin-bottom: 10px;
 `;
 
 const Signup = () => {
+  let navigate = useNavigate();
+  function Logging() {
+    navigate("/login");
+  }
   return (
-    <Container>
-      <Wrapper>
-        <Title>CREATE AN ACCOUNT</Title>
-        <Form>
-          <Input placeholder="name" />
-          <Input placeholder="last name" />
-          <Input placeholder="username" />
-          <Input placeholder="email" />
-          <Input placeholder="password" />
-          <Input placeholder="confirm password" />
-          <Agreement>
-            By creating an account, I consent to the processing of my personal
-            data in accordance with the <b>PRIVACY POLICY</b>
-          </Agreement>
-          <Button>CREATE</Button>
-        </Form>
-      </Wrapper>
-    </Container>
+    <MDBContainer fluid className="my-5">
+      <Navbar />
+      <MDBRow className="g-0 align-items-center">
+        <MDBCol col="6">
+          <MDBCard
+            className="my-5 cascading-right"
+            style={{
+              background: "hsla(0, 0%, 100%, 0.55)",
+              backdropFilter: "blur(30px)",
+            }}>
+            <MDBCardBody className="p-5 shadow-5 text-center">
+              <h2 className="fw-bold mb-5">Sign up now</h2>
+
+              <MDBRow>
+                <MDBCol col="6">
+                  <MDBInput
+                    wrapperClass="mb-4"
+                    label="First name"
+                    id="form1"
+                    type="text"
+                  />
+                </MDBCol>
+
+                <MDBCol col="6">
+                  <MDBInput
+                    wrapperClass="mb-4"
+                    label="Last name"
+                    id="form2"
+                    type="text"
+                  />
+                </MDBCol>
+              </MDBRow>
+
+              <MDBInput
+                wrapperClass="mb-4"
+                label="Email"
+                id="form3"
+                type="email"
+              />
+              <MDBInput
+                wrapperClass="mb-4"
+                label="Password"
+                id="form4"
+                type="password"
+              />
+
+              <div className="d-flex justify-content-center mb-4">
+                <MDBCheckbox
+                  name="flexCheck"
+                  value=""
+                  id="flexCheckDefault"
+                  label="Subscribe to our newsletter"
+                />
+              </div>
+
+              <Button onClick={Logging}>Register Here</Button>
+
+              <div className="text-center">
+                <p>or sign up with:</p>
+
+                <Social />
+              </div>
+            </MDBCardBody>
+          </MDBCard>
+        </MDBCol>
+
+        <MDBCol col="6">
+          <img
+            src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg"
+            class="w-100 rounded-4 shadow-4"
+            alt=""
+            fluid
+          />
+        </MDBCol>
+      </MDBRow>
+    </MDBContainer>
   );
 };
 

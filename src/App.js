@@ -1,24 +1,23 @@
 import React from "react";
-import Announcement from "./components/Announcement";
-import Categories from "./components/Catergories"
-import Footer from "./components/Footer";
-import Navbar from "./components/Navbar";
-import Newsletter from "./components/Newsletter";
-import Products from "./components/Products";
-import Slider from "./components/Slider";
+import Home from "./page/Home";
+import Login from "./page/Login";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css';
+import Signup from "./page/Signup";
+import Welcome from "./page/Welcome";
 
 function App() {
   return (
-        <div>
-      <Announcement />
-      <Navbar />
-      <Slider />
-      <Categories />
-      <Products/>
-      <Newsletter/>
-      <Footer/>
-    </div>
+    <>
+     <BrowserRouter>
+      <Routes> 
+      <Route path="/" element={<Home />} />
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Signup/>} />
+      <Route path="/e-shop" element={<Welcome/>} />
+     </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 

@@ -1,5 +1,17 @@
 import styled from "styled-components";
-import {mobile} from "../responsive";
+import { mobile } from "../responsive";
+import {
+  MDBContainer,
+  MDBCardImage,
+  MDBRow,
+  MDBCol,
+  MDBCard,
+  MDBCardBody,
+  MDBInput,
+  MDBIcon,
+} from "mdb-react-ui-kit";
+import Navbar from "../components/Navbar";
+import {Link, useNavigate} from 'react-router-dom'
 
 const Container = styled.div`
   width: 100vw;
@@ -50,27 +62,86 @@ const Button = styled.button`
   margin-bottom: 10px;
 `;
 
-const Link = styled.a`
-  margin: 5px 0px;
-  font-size: 12px;
-  text-decoration: underline;
-  cursor: pointer;
-`;
 
 const Login = () => {
+  let navigate = useNavigate()
+
+  function Welcome(){
+    navigate("/e-shop")
+  }
   return (
-    <Container>
-      <Wrapper>
-        <Title>SIGN IN</Title>
-        <Form>
-          <Input placeholder="username" />
-          <Input placeholder="password" />
-          <Button>LOGIN</Button>
-          <Link>DO NOT YOU REMEMBER THE PASSWORD?</Link>
-          <Link>CREATE A NEW ACCOUNT</Link>
-        </Form>
-      </Wrapper>
-    </Container>
+    <>
+      <MDBContainer className="my-5">
+        <Navbar />
+        <MDBCard>
+          <MDBRow className="g-0">
+            <MDBCol md="6">
+              <MDBCardImage
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
+                alt="login form"
+                className="rounded-start w-100"
+              />
+            </MDBCol>
+
+            <MDBCol md="6">
+              <MDBCardBody className="d-flex flex-column">
+                <div className="d-flex flex-row mt-2">
+                  <MDBIcon
+                    fas
+                    icon="cubes fa-3x me-3"
+                    style={{ color: "#ff6219" }}
+                  />
+                  <span className="h1 fw-bold mb-0">Logo</span>
+                </div>
+
+                <h5
+                  className="fw-normal my-4 pb-3"
+                  style={{ letterSpacing: "1px" }}>
+                  Sign into your account
+                </h5>
+
+                <MDBInput
+                  wrapperClass="mb-4"
+                  label="Email address"
+                  id="formControlLg"
+                  type="email"
+                  size="lg"
+                />
+                <MDBInput
+                  wrapperClass="mb-4"
+                  label="Password"
+                  id="formControlLg"
+                  type="password"
+                  size="lg"
+                />
+
+                <Button onClick={Welcome}>
+                  Login
+                </Button>
+                <a className="small text-muted" href="#!">
+                  Forgot password?
+                </a>
+                <p className="mb-5 pb-lg-2" style={{ color: "#393f81" }}>
+                  Don't have an account?{" "}
+                  <Link to="/register" style={{ color: "#393f81" }}>
+                    Register here
+                  </Link>
+                </p>
+
+                <div className="d-flex flex-row justify-content-start">
+                  <a href="#!" className="small text-muted me-1">
+                    Terms of use.
+                  </a>
+                  <a href="#!" className="small text-muted">
+                    Privacy policy
+                  </a>
+                </div>
+              </MDBCardBody>
+            </MDBCol>
+          </MDBRow>
+        </MDBCard>
+      </MDBContainer>
+    </>
   );
 };
 
