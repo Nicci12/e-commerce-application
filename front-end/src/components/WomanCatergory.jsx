@@ -45,7 +45,7 @@ const WomanCategory = ({ item }) => {
   let navigate= useNavigate()
 
   function ProductsPage(){
-   navigate("/products/all-products")
+   navigate("/products")
   }
   return (
     <Container>

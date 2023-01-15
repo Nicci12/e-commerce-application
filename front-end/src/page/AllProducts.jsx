@@ -1,12 +1,14 @@
 import React, {useEffect, useContext} from 'react';
-import Products from "../components/Products";
+import Navbar from '../components/Navbar';
+import GetProducts from '../components/GetProducts';
 
 
 
 function AllProducts() {
     return (
         <>
-        <Products />
+        <Navbar />
+        <GetProducts />
         </>
     );
 }

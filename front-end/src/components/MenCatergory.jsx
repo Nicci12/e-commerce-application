@@ -1,6 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   flex: 1;
@@ -42,13 +43,17 @@ const Button = styled.button`
   font-weight: 600;
 `;
 function MenCatergory({ item }) {
+  const navigate=useNavigate()
+  function ProductsPage(){
+    navigate("/products")
+   }
   return (
     <div>
       <Container>
         <Image src={item.img} />
         <Info>
           <Title>{item.title}</Title>
-          <Button>SHOP NOW</Button>
+          <Button onClick={ProductsPage}>SHOP NOW</Button>
         </Info>
       </Container>
     </div>
