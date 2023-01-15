@@ -1,3 +1,4 @@
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import {
@@ -11,7 +12,9 @@ import {
   MDBIcon,
 } from "mdb-react-ui-kit";
 import Navbar from "../components/Navbar";
-import {Link, useNavigate} from 'react-router-dom'
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
+import AppContext from "../context/appContext";
 
 const Container = styled.div`
   width: 100vw;
@@ -62,13 +65,31 @@ const Button = styled.button`
   margin-bottom: 10px;
 `;
 
-
 const Login = () => {
-  let navigate = useNavigate()
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const { setToken, setLogged } = useContext(AppContext);
+  let navigate = useNavigate();
 
-  function Welcome(){
-    navigate("/e-shop")
-  }
+  const handleLogIn = async (e) => {
+    try {
+      e.preventDefault();
+      const res = await axios.post("http://localhost:8080/users/login", {
+        email,
+        password,
+      });
+      console.log(res);
+      if (res.data.token) {
+        localStorage.setItem("token", JSON.stringify(res.data.token));
+        setToken(res.data.token);
+      }
+      setLogged(true);
+      navigate("/e-shop");
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <>
       <MDBContainer className="my-5">
@@ -103,21 +124,21 @@ const Login = () => {
                 <MDBInput
                   wrapperClass="mb-4"
                   label="Email address"
-                  id="formControlLg"
+                  id="email"
+                  onChange={(e) => setEmail(e.target.value)}
                   type="email"
                   size="lg"
                 />
                 <MDBInput
                   wrapperClass="mb-4"
                   label="Password"
-                  id="formControlLg"
+                  id="password"
+                  onChange={(e) => setPassword(e.target.value)}
                   type="password"
                   size="lg"
                 />
 
-                <Button onClick={Welcome}>
-                  Login
-                </Button>
+                <Button onClick={handleLogIn}>Login</Button>
                 <a className="small text-muted" href="#!">
                   Forgot password?
                 </a>

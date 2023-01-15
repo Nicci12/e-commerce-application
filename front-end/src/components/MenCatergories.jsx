@@ -1,7 +1,7 @@
 import styled from "styled-components";
-import { categories } from "../utils/data"
+import { mencategories } from "../utils/data"
 import { mobile } from "../responsive";
-import WomanCategory from "./WomanCatergory"
+import MenCategory from "./MenCatergory"
 
 const Container = styled.div`
   display: flex;
@@ -10,14 +10,14 @@ const Container = styled.div`
   ${mobile({ padding: "0px", flexDirection:"column" })}
 `;
 
-const Categories = () => {
+const MenCategories = () => {
   return (
     <Container>
-      {categories.map((item) => (
-        <WomanCategory item={item} key={item.id} />
+      {mencategories.map((item) => (
+        <MenCategory item={item} key={item.id} />
       ))}
     </Container>
   );
 };
 
-export default Categories;
+export default MenCategories;

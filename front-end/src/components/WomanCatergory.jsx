@@ -41,7 +41,8 @@ const Button = styled.button`
     font-weight: 600;
 `;
 
-const Category = ({ item }) => {
+const WomanCategory = ({ item }) => {
+  
   return (
     <Container>
       <Image src={item.img} />
@@ -53,4 +54,4 @@ const Category = ({ item }) => {
   );
 };
 
-export default Category;
+export default WomanCategory;

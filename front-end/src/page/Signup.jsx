@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React from "react";
+import React, {useState} from "react";
 import {
   MDBContainer,
   MDBCard,
@@ -12,6 +12,7 @@ import {
 import Navbar from "../components/Navbar";
 import Social from "../components/Socials";
 import { useNavigate } from "react-router-dom";
+import axios from 'axios'
 
 const Button = styled.button`
   width: 40%;
@@ -24,10 +25,25 @@ const Button = styled.button`
 `;
 
 const Signup = () => {
+  const [userInfo, setUserInfo] = useState({});
   let navigate = useNavigate();
-  function Logging() {
-    navigate("/login");
-  }
+
+  const handleTextChange = (e) => {
+    e.preventDefault();
+    setUserInfo({ ...userInfo, [e.target.id]: e.target.value });
+  };
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await axios.post("http://localhost:8080/users/signup", userInfo);
+      if (res.data.userId) {
+        navigate("/login");
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <MDBContainer fluid className="my-5">
       <Navbar />
@@ -46,9 +62,10 @@ const Signup = () => {
                 <MDBCol col="6">
                   <MDBInput
                     wrapperClass="mb-4"
-                    label="First name"
+                    label="name"
                     id="form1"
                     type="text"
+                    onChange={handleTextChange}
                   />
                 </MDBCol>
 
@@ -56,8 +73,9 @@ const Signup = () => {
                   <MDBInput
                     wrapperClass="mb-4"
                     label="Last name"
-                    id="form2"
+                    id="surname"
                     type="text"
+                    onChange={handleTextChange}
                   />
                 </MDBCol>
               </MDBRow>
@@ -65,14 +83,23 @@ const Signup = () => {
               <MDBInput
                 wrapperClass="mb-4"
                 label="Email"
-                id="form3"
+                id="email"
                 type="email"
+                onChange={handleTextChange}
               />
               <MDBInput
                 wrapperClass="mb-4"
                 label="Password"
-                id="form4"
+                id="password"
                 type="password"
+                onChange={handleTextChange}
+              />
+               <MDBInput
+                wrapperClass="mb-4"
+                label="Password"
+                id="repassword"
+                type="password"
+                onChange={handleTextChange}
               />
 
               <div className="d-flex justify-content-center mb-4">
@@ -84,7 +111,8 @@ const Signup = () => {
                 />
               </div>
 
-              <Button onClick={Logging}>Register Here</Button>
+              <Button onClick={handleSignUp
+              }>Register Here</Button>
 
               <div className="text-center">
                 <p>or sign up with:</p>

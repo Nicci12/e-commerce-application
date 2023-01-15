@@ -1,9 +1,11 @@
 import { Badge } from "@mui/material";
 import { Search, ShoppingCartOutlined } from "@mui/icons-material"
-import React from "react";
+import React, {useContext} from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
+import appContext from "../context/appContext";
+
 
 
 const Container = styled.div`
@@ -67,11 +69,25 @@ const MenuItem = styled.div`
   margin-left: 25px;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
+const NoMenuItem = styled.div`
+  display:none
+  ${mobile({ fontSize: "12px", marginLeft: "10px" })}
+`;
 
 const Navbar = () => {
+  const { logged, setLogged} = useContext(appContext);
   let navigate = useNavigate()
+
   function Logging(){
+    setLogged(true);
     navigate("/login")
+    setLogged(false);
+  }
+
+  function Logout(){
+    setLogged(false);
+    navigate("/")
+    localStorage.clear();
   }
 
   function Register(){
@@ -97,8 +113,9 @@ const Navbar = () => {
           <Logo onClick={Home}>E-SHOP</Logo>
         </Center>
         <Right>
-          <MenuItem onClick={Register}>Register</MenuItem>
-          <MenuItem onClick={Logging}>Log In</MenuItem>
+        {logged ? 
+          <MenuItem onClick={Register}>Register</MenuItem> : <NoMenuItem className="d-none">Registered</NoMenuItem>  }
+          {logged ?(<MenuItem onClick={Logout}>Log Out</MenuItem>) : (<MenuItem onClick={Logging}>Sign In</MenuItem>)} 
           <MenuItem>
             <Badge badgeContent={4} color="primary">
               <ShoppingCartOutlined />
