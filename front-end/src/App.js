@@ -6,8 +6,11 @@ import "./App.css";
 import Signup from "./page/Signup";
 import Welcome from "./page/Welcome";
 import AllProducts from "./page/AllProducts";
+import Cart from "./page/Cart";
 import AppContext from "./context/appContext";
 import axios from "axios";
+import WishList from "./page/WishList";
+import Product from "./page/Product";
 
 
 function App() {
@@ -51,6 +54,10 @@ useEffect(() => {
             <Route path="/register" element={<Signup />} />
             <Route path="/e-shop" element={<Welcome />} />
             <Route path="/products" element={<AllProducts />} />
+            <Route path="/products/:id" element={<Product />} />
+            <Route path="/users/wishlist" element={<WishList />} />
+            <Route path="/users/cart" element={<Cart />} />
+
           </Routes>
         </BrowserRouter>
       </AppContext.Provider>

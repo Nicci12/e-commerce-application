@@ -98,6 +98,16 @@ const Navbar = () => {
     navigate("/")
   }
 
+  function Cart(){
+    navigate("/users/cart")
+  }
+
+  function Wishlist(){
+    navigate("/users/wishlist")
+  }
+
+
+
   return ( 
     <>
     <Container>
@@ -113,12 +123,11 @@ const Navbar = () => {
           <Logo onClick={Home}>E-SHOP</Logo>
         </Center>
         <Right>
-        {logged ? 
-          <MenuItem onClick={Register}>Register</MenuItem> : <NoMenuItem className="d-none">Registered</NoMenuItem>  }
+        {logged ? (<MenuItem onClick={Wishlist}>WishList</MenuItem>):(<MenuItem onClick={Register}>Register</MenuItem>) }
           {logged ?(<MenuItem onClick={Logout}>Log Out</MenuItem>) : (<MenuItem onClick={Logging}>Sign In</MenuItem>)} 
           <MenuItem>
             <Badge badgeContent={4} color="primary">
-              <ShoppingCartOutlined />
+              <ShoppingCartOutlined onClick={Cart} />
             </Badge>
           </MenuItem>
         </Right>

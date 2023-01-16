@@ -4,6 +4,9 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
+import React,{useState, useEffect} from 'react'
+import {useParams} from 'react-router-dom'
+import axios from "axios";
 import { mobile } from "../responsive";
 
 const Container = styled.div``;
@@ -115,33 +118,41 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+  const { id } = useParams();
+  useEffect(() => {
+    async function fetchProductData() {
+        const { data } = await axios.get(`http://localhost:8080/products/${id}`);
+        setProduct(data);
+        console.log(data);
+    }
+    fetchProductData();
+}, [id]);
+
+const [product, setProduct] = useState([]);
+  
   return (
     <Container>
       <Navbar />
       <Announcement />
       <Wrapper>
         <ImgContainer>
-          <Image src="https://i.ibb.co/S6qMxwr/jean.jpg" />
+          <Image src={product.images} />
         </ImgContainer>
         <InfoContainer>
-          <Title>Denim Jumpsuit</Title>
+          <Title>{product.title}</Title>
           <Desc>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            venenatis, dolor in finibus malesuada, lectus ipsum porta nunc, at
-            iaculis arcu nisi sed mauris. Nulla fermentum vestibulum ex, eget
-            tristique tortor pretium ut. Curabitur elit justo, consequat id
-            condimentum ac, volutpat ornare.
+          {product.description}
           </Desc>
           <Price>$ 20</Price>
           <FilterContainer>
             <Filter>
-              <FilterTitle>Color</FilterTitle>
+              <FilterTitle>{product.color}</FilterTitle>
               <FilterColor color="black" />
               <FilterColor color="darkblue" />
               <FilterColor color="gray" />
             </Filter>
             <Filter>
-              <FilterTitle>Size</FilterTitle>
+              <FilterTitle>Sizes</FilterTitle>
               <FilterSize>
                 <FilterSizeOption>XS</FilterSizeOption>
                 <FilterSizeOption>S</FilterSizeOption>
