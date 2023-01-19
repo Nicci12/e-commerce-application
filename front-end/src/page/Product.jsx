@@ -1,11 +1,11 @@
-import { Add, Remove } from "@mui/icons-material"
+import { Add, Remove } from "@mui/icons-material";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
-import React,{useState, useEffect} from 'react'
-import {useParams} from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import { mobile } from "../responsive";
 
@@ -14,7 +14,7 @@ const Container = styled.div``;
 const Wrapper = styled.div`
   padding: 50px;
   display: flex;
-  ${mobile({ padding: "10px", flexDirection:"column" })}
+  ${mobile({ padding: "10px", flexDirection: "column" })}
 `;
 
 const ImgContainer = styled.div`
@@ -112,8 +112,8 @@ const Button = styled.button`
   background-color: white;
   cursor: pointer;
   font-weight: 500;
-  &:hover{
-      background-color: #f8f4f4;
+  &:hover {
+    background-color: #f8f4f4;
   }
 `;
 
@@ -121,15 +121,15 @@ const Product = () => {
   const { id } = useParams();
   useEffect(() => {
     async function fetchProductData() {
-        const { data } = await axios.get(`http://localhost:8080/products/${id}`);
-        setProduct(data);
-        console.log(data);
+      const { data } = await axios.get(`http://localhost:8080/products/${id}`);
+      setProduct(data);
+      console.log(data);
     }
     fetchProductData();
-}, [id]);
+  }, [id]);
 
-const [product, setProduct] = useState([]);
-  
+  const [product, setProduct] = useState([]);
+
   return (
     <Container>
       <Navbar />
@@ -140,9 +140,7 @@ const [product, setProduct] = useState([]);
         </ImgContainer>
         <InfoContainer>
           <Title>{product.title}</Title>
-          <Desc>
-          {product.description}
-          </Desc>
+          <Desc>{product.description}</Desc>
           <Price>$ 20</Price>
           <FilterContainer>
             <Filter>

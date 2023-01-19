@@ -3,7 +3,10 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@mui/icons-material";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import AppContext from "../context/appContext";
 import styled from "styled-components";
 
 const Info = styled.div`
@@ -66,11 +69,32 @@ const Icon = styled.div`
   }
 `;
 
-const GetAllProducts = ({ product }) => {
+const GetAllProducts = ({ product}) => {
+  const {user, token } = useContext(AppContext);
+  const [prodId, setProdId] = useState(product._id);
+  const [wishlist, setWishlist] = useState([]);
   const navigate = useNavigate();
+
   function navigateToProduct(product) {
     navigate(`/products/${product._id}`);
   }
+
+  const handleAddToWishlist = async () => {
+    try {
+      setWishlist([...wishlist, prodId]);
+      if (wishlist.includes(prodId)) {
+        alert("Item already in wishlist");
+    } else {
+      await axios.post(`http://localhost:8080/users/${user}/wishlist`, { prodId: prodId });
+      alert("added to cart")
+    }
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+
+
   return (
     <Container>
       <Circle />
@@ -79,12 +103,13 @@ const GetAllProducts = ({ product }) => {
         <Icon>
           <ShoppingCartOutlined />
         </Icon>
-        <Icon onClick={() => {
+        <Icon
+          onClick={() => {
             navigateToProduct(product);
           }}>
           <SearchOutlined />
         </Icon>
-        <Icon>
+        <Icon onClick={handleAddToWishlist}>
           <FavoriteBorderOutlined />
         </Icon>
       </Info>

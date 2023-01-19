@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Home from "./page/Home";
 import Login from "./page/Login";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, useParams} from "react-router-dom";
 import "./App.css";
 import Signup from "./page/Signup";
 import Welcome from "./page/Welcome";
@@ -17,10 +17,20 @@ function App() {
   const baseUrl = "http://localhost:8080";
   const [token, setToken] = useState("");
   const [productsList, setProductsList] = useState([])
+  const [productId, setProductId]= useState([])
+  const [user, setUser] = useState([])
   const [logged, setLogged]= useState(false)
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
+    const user = JSON.parse(localStorage.getItem("user"));
+    
+    
+    if (user) {
+      setUser(user);
+      setLogged(true)
+    }
+
     if (token) {
       setToken(token);
       setLogged(true)
@@ -28,13 +38,13 @@ function App() {
   }, []);
 
 
+
   const fetchProducts = async () => {
     try {
       const response = await axios.get(`${baseUrl}/products`);
-      const data = response.data;
+      const data = response.data
       console.log(data)
       setProductsList(data)
-      console.log(productsList)
   } catch (error) {
       console.log(error);
   }
@@ -46,7 +56,7 @@ useEffect(() => {
 
   return (
     <>
-      <AppContext.Provider value={{ token, setToken, logged, setLogged, productsList, setProductsList }}>
+      <AppContext.Provider value={{ token, setToken, logged, setLogged, productsList, setProductsList, user, setUser }}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -55,7 +65,7 @@ useEffect(() => {
             <Route path="/e-shop" element={<Welcome />} />
             <Route path="/products" element={<AllProducts />} />
             <Route path="/products/:id" element={<Product />} />
-            <Route path="/users/wishlist" element={<WishList />} />
+            <Route path="/users/:id/wishlist" element={<WishList />} />
             <Route path="/users/cart" element={<Cart />} />
 
           </Routes>

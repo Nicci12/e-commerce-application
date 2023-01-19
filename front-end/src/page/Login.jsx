@@ -68,7 +68,7 @@ const Button = styled.button`
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setToken, setLogged } = useContext(AppContext);
+  const { setToken, setLogged, setUser } = useContext(AppContext);
   let navigate = useNavigate();
 
   const handleLogIn = async (e) => {
@@ -78,7 +78,12 @@ const Login = () => {
         email,
         password,
       });
-      console.log(res);
+       if(res.data.user){
+        localStorage.setItem(
+          "user",
+          JSON.stringify(res.data.user));
+        setUser(res.data.user);
+       }
       if (res.data.token) {
         localStorage.setItem("token", JSON.stringify(res.data.token));
         setToken(res.data.token);

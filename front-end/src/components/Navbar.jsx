@@ -103,7 +103,7 @@ const Navbar = () => {
   }
 
   function Wishlist(){
-    navigate("/users/wishlist")
+    navigate("/users/:id/wishlist")
   }
 
 
