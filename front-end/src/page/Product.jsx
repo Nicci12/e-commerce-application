@@ -4,7 +4,8 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext} from "react";
+import AppContext from "../context/appContext";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { mobile } from "../responsive";
@@ -118,17 +119,34 @@ const Button = styled.button`
 `;
 
 const Product = () => {
+  const { user} = useContext(AppContext);
+  const [cart, setCart]=useState([])
+    const [product, setProduct] = useState([]);
   const { id } = useParams();
   useEffect(() => {
     async function fetchProductData() {
       const { data } = await axios.get(`http://localhost:8080/products/${id}`);
       setProduct(data);
-      console.log(data);
     }
     fetchProductData();
   }, [id]);
 
-  const [product, setProduct] = useState([]);
+
+  const handleAddToCart = async () => {
+    setCart([...cart, product._id]);
+    try {
+      if (cart.includes(product._id)) {
+        alert("Item already in cart");
+      } else {
+        await axios.post(`http://localhost:8080/users/${user}/cart`, {
+          prodId: product._id,
+        });
+        alert("added to cart");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <Container>
@@ -166,7 +184,7 @@ const Product = () => {
               <Amount>1</Amount>
               <Add />
             </AmountContainer>
-            <Button>ADD TO CART</Button>
+            <Button onClick={handleAddToCart}>ADD TO CART</Button>
           </AddContainer>
         </InfoContainer>
       </Wrapper>

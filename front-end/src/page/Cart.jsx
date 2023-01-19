@@ -1,4 +1,4 @@
-import { Add, Remove } from "@mui/icons-material"
+import { Add, Remove } from "@mui/icons-material";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -21,7 +21,7 @@ const Title = styled.h1`
 const Top = styled.div`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 20px;
 `;
 
@@ -154,10 +154,10 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  const navigate= useNavigate()
+  const navigate = useNavigate();
 
-  function Return(){
-    navigate("/porudcts")
+  function Return() {
+    navigate("/products");
   }
   return (
     <Container>
@@ -166,12 +166,10 @@ const Cart = () => {
       <Wrapper>
         <Title>YOUR BAG</Title>
         <Top>
-          <TopButton onClick={Return}>CONTINUE SHOPPING</TopButton>
           <TopTexts>
             <TopText>Shopping Bag(2)</TopText>
             <TopText>Your Wishlist (0)</TopText>
           </TopTexts>
-          <TopButton type="filled">CHECKOUT NOW</TopButton>
         </Top>
         <Bottom>
           <Info>
@@ -226,6 +224,7 @@ const Cart = () => {
                 <ProductPrice>$ 20</ProductPrice>
               </PriceDetail>
             </Product>
+            <TopButton onClick={Return}>CONTINUE SHOPPING</TopButton>
           </Info>
           <Summary>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>

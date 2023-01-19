@@ -69,10 +69,11 @@ const Icon = styled.div`
   }
 `;
 
-const GetAllProducts = ({ product}) => {
-  const {user, token } = useContext(AppContext);
+const GetAllProducts = ({ product }) => {
+  const { user, token } = useContext(AppContext);
   const [prodId, setProdId] = useState(product._id);
   const [wishlist, setWishlist] = useState([]);
+  const [cart, setCart] = useState([]);
   const navigate = useNavigate();
 
   function navigateToProduct(product) {
@@ -80,27 +81,43 @@ const GetAllProducts = ({ product}) => {
   }
 
   const handleAddToWishlist = async () => {
+    setWishlist([...wishlist, prodId]);
     try {
-      setWishlist([...wishlist, prodId]);
       if (wishlist.includes(prodId)) {
         alert("Item already in wishlist");
-    } else {
-      await axios.post(`http://localhost:8080/users/${user}/wishlist`, { prodId: prodId });
-      alert("added to cart")
-    }
+      } else {
+        await axios.post(`http://localhost:8080/users/${user}/wishlist`, {
+          prodId: prodId,
+        });
+        alert("added to wishlist");
+      }
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
-
+  const handleAddToCart = async () => {
+    setCart([...cart, prodId]);
+    try {
+      if (cart.includes(prodId)) {
+        alert("Item already in cart");
+      } else {
+        await axios.post(`http://localhost:8080/users/${user}/cart`, {
+          prodId: prodId,
+        });
+        alert("added to cart");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <Container>
       <Circle />
       <Image src={product.images} />
       <Info>
-        <Icon>
+        <Icon onClick={handleAddToCart}>
           <ShoppingCartOutlined />
         </Icon>
         <Icon

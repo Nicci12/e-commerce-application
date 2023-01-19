@@ -6,8 +6,6 @@ import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
 import appContext from "../context/appContext";
 
-
-
 const Container = styled.div`
   height: 60px;
   ${mobile({ height: "50px" })}

@@ -40,6 +40,7 @@ const Signup = () => {
       if (res.data.userId) {
         navigate("/login");
       }
+      navigate("/login");
     } catch (err) {
       console.log(err);
     }
