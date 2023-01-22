@@ -23,7 +23,7 @@ const Container = styled.div`
       rgba(255, 255, 255, 0.5),
       rgba(255, 255, 255, 0.5)
     ),
-    url("https://images.pexels.com/photos/6984650/pexels-photo-6984650.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940")
+    url("https://www.bloomadvisors.com/wp-content/uploads/2020/11/shopping.jpg")
       center;
   background-size: cover;
   display: flex;
@@ -103,7 +103,7 @@ const Login = () => {
           <MDBRow className="g-0">
             <MDBCol md="6">
               <MDBCardImage
-                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/img1.webp"
+                src="https://img.freepik.com/free-photo/portrait-young-happy-girl-holding-shopping-bags_171337-2608.jpg?w=2000"
                 alt="login form"
                 className="rounded-start w-100"
               />

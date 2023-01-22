@@ -1,3 +1,5 @@
+import React,{useState, useEffect, useContext} from 'react'
+import AppContext from "../context/appContext";
 import { Add, Remove } from "@mui/icons-material";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
@@ -5,7 +7,7 @@ import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
-
+import axios from 'axios'
 const Container = styled.div``;
 
 const Wrapper = styled.div`
@@ -153,15 +155,73 @@ const Button = styled.button`
   font-weight: 600;
 `;
 
-const Cart = () => {
-  const navigate = useNavigate();
 
-  function Return() {
-    navigate("/products");
+const Cart = () => {
+  const { user} = useContext(AppContext);
+  const navigate = useNavigate();
+  const [cartItems, setCartItems] = useState([{}]);
+  const [checkedState, setCheckedState] = useState(new Array(cartItems.length).fill(false));
+  const [total, setTotal] = useState(0);
+
+
+  useEffect(() => {
+    async function fetchData() {
+        try {
+            const res = await axios.get(`http://localhost:8080/users/${user}/cart`);
+            const cartIds = res.data;
+            console.log(cartIds)
+            const requests = cartIds.map(async (id) => {
+              console.log("id", id)
+              const productId = id.product;
+              const product = await axios.get(`http://localhost:8080/products/cart/${productId}`);
+              return product.data;
+          });
+            const items = await Promise.all(requests);
+            setCheckedState(new Array(items.length).fill(false));
+             console.log("items", items)
+            setCartItems(items);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    fetchData();
+}, [user]);
+
+const getFormattedPrice = (price) => `$${price.toFixed(2)}`;
+
+const handleOnChange = (position) => {
+  const updatedCheckedState = [...checkedState];
+  updatedCheckedState[position] = !updatedCheckedState[position];
+  setCheckedState(updatedCheckedState);
+  let totalPrice = 0;
+  for (let i = 0; i < cartItems.length; i++) {
+      if (updatedCheckedState[i]) {
+          totalPrice += cartItems[i].price;
+      }
   }
+  setTotal(totalPrice);
+};
+
+const handleOnClick = (position) => {
+  const updatedCheckedState = [...checkedState];
+  updatedCheckedState[position] = !updatedCheckedState[position];
+  setCheckedState(updatedCheckedState);
+  let totalPrice = 0;
+  for (let i = 0; i < cartItems.length; i++) {
+      if (updatedCheckedState[i]) {
+          totalPrice += cartItems[i].price;
+      }
+  }
+  setTotal(totalPrice);
+};
+
+function Return() {
+  navigate("/products");
+}
   return (
+    <>
     <Container>
-      <Navbar />
+        <Navbar />
       <Announcement />
       <Wrapper>
         <Title>YOUR BAG</Title>
@@ -173,60 +233,44 @@ const Cart = () => {
         </Top>
         <Bottom>
           <Info>
-            <Product>
-              <ProductDetail>
-                <Image src="https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1614188818-TD1MTHU_SHOE_ANGLE_GLOBAL_MENS_TREE_DASHERS_THUNDER_b01b1013-cd8d-48e7-bed9-52db26515dc4.png?crop=1xw:1.00xh;center,top&resize=480%3A%2A" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> JESSIE THUNDER SHOES
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 93813718293
-                  </ProductId>
-                  <ProductColor color="black" />
-                  <ProductSize>
-                    <b>Size:</b> 37.5
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>2</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 30</ProductPrice>
-              </PriceDetail>
-            </Product>
-            <Hr />
-            <Product>
-              <ProductDetail>
-                <Image src="https://i.pinimg.com/originals/2d/af/f8/2daff8e0823e51dd752704a47d5b795c.png" />
-                <Details>
-                  <ProductName>
-                    <b>Product:</b> HAKURA T-SHIRT
-                  </ProductName>
-                  <ProductId>
-                    <b>ID:</b> 93813718293
-                  </ProductId>
-                  <ProductColor color="gray" />
-                  <ProductSize>
-                    <b>Size:</b> M
-                  </ProductSize>
-                </Details>
-              </ProductDetail>
-              <PriceDetail>
-                <ProductAmountContainer>
-                  <Add />
-                  <ProductAmount>1</ProductAmount>
-                  <Remove />
-                </ProductAmountContainer>
-                <ProductPrice>$ 20</ProductPrice>
-              </PriceDetail>
-            </Product>
-            <TopButton onClick={Return}>CONTINUE SHOPPING</TopButton>
+          {cartItems.map((item, index) => (
+    <Product key={item._id}>
+        <ProductDetail>
+            <Image src={item.images} />
+            <Details>
+                <ProductName>
+                    <b>Product:</b> {item.item}
+                </ProductName>
+                <ProductId>
+                </ProductId>
+                <ProductColor color={item.color} />
+                <ProductSize>
+                    <b>Size:</b> {item.sizes}
+                </ProductSize>
+            </Details>
+        </ProductDetail>
+        <PriceDetail>
+            <ProductAmountContainer>
+                <Add />
+                <ProductAmount>{item.stock}</ProductAmount>
+                <Remove />
+            </ProductAmountContainer>
+            <ProductPrice>{item.price}</ProductPrice>
+            <input
+                    type="checkbox"
+                    data-testid="ch1"
+                    id={`custom-checkbox-${index}`}
+                    name={item.price}
+                    value={item.price}
+                    checked={checkedState[index]}
+                    onChange={() => handleOnChange(index)}
+                  />
+        </PriceDetail>
+    </Product>
+))}
           </Info>
           <Summary>
+         <button onClick={handleOnClick}>Button</button>
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
@@ -238,18 +282,20 @@ const Cart = () => {
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>$ -5.90</SummaryItemPrice>
+              <SummaryItemPrice>${total}</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
-              <SummaryItemText>Total</SummaryItemText>
-              <SummaryItemPrice>$ 80</SummaryItemPrice>
-            </SummaryItem>
+            <SummaryItemText>Total</SummaryItemText>
+         <SummaryItemPrice>{getFormattedPrice(total)}</SummaryItemPrice>
+       </SummaryItem>
             <Button>CHECKOUT NOW</Button>
           </Summary>
         </Bottom>
+          <TopButton onClick={Return}>CONTINUE SHOPPING</TopButton>
       </Wrapper>
       <Footer />
     </Container>
+    </>
   );
 };
 

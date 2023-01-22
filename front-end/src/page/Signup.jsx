@@ -126,7 +126,7 @@ const Signup = () => {
 
         <MDBCol col="6">
           <img
-            src="https://mdbootstrap.com/img/new/ecommerce/vertical/004.jpg"
+            src="https://www.bloomadvisors.com/wp-content/uploads/2020/11/shopping.jpg"
             class="w-100 rounded-4 shadow-4"
             alt=""
             fluid

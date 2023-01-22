@@ -122,6 +122,7 @@ const Product = () => {
   const { user} = useContext(AppContext);
   const [cart, setCart]=useState([])
     const [product, setProduct] = useState([]);
+    const [prodId, setProdId]=useState(product._id)
   const { id } = useParams();
   useEffect(() => {
     async function fetchProductData() {
@@ -139,7 +140,7 @@ const Product = () => {
         alert("Item already in cart");
       } else {
         await axios.post(`http://localhost:8080/users/${user}/cart`, {
-          prodId: product._id,
+          prodId: prodId,
         });
         alert("added to cart");
       }

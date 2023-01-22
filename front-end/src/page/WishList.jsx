@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useState } from "react";
 import AppContext from "../context/appContext";
 import axios from "axios";
 import Navbar from "../components/Navbar";
-import { Add, Remove } from "@mui/icons-material";
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import DeleteIcon from '@mui/icons-material/Delete';
 import styled from "styled-components";
@@ -157,7 +156,6 @@ const Button = styled.button`
   font-weight: 600;
 `;
 function WishList() {
-  const baseUrl = "http://localhost:8080";
   const { user, productsList } = useContext(AppContext);
   const [wishlist, setWishlist] = useState([]);
 
@@ -211,7 +209,7 @@ function WishList() {
           <Bottom>
             <Info>
               {wishlist.map((item) => (
-                <Product key={item.id}>
+                <Product key={item._id}>
                   <ProductDetail>
                     <Image src={item.images} />
                     <Details>
@@ -221,7 +219,7 @@ function WishList() {
                       <ProductId>
                         <b>ID:</b> 93813718293
                       </ProductId>
-                      <ProductColor color="black" />
+                      <ProductColor color={item.color} />
                       <ProductSize>
                         <b>Size:</b> {item.sizes}
                       </ProductSize>
