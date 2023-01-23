@@ -134,11 +134,11 @@ const Product = () => {
 
 
   const handleAddToCart = async () => {
-    setCart([...cart, product._id]);
     try {
       if (cart.includes(product._id)) {
         alert("Item already in cart");
       } else {
+        setCart([...cart, product._id]);
         await axios.post(`http://localhost:8080/users/${user}/cart`, {
           prodId: prodId,
         });

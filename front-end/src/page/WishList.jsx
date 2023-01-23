@@ -2,8 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import AppContext from "../context/appContext";
 import axios from "axios";
 import Navbar from "../components/Navbar";
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import DeleteIcon from '@mui/icons-material/Delete';
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import DeleteIcon from "@mui/icons-material/Delete";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
@@ -156,9 +156,9 @@ const Button = styled.button`
   font-weight: 600;
 `;
 function WishList() {
-  const { user, prodId} = useContext(AppContext);
+  const { user, prodId } = useContext(AppContext);
   const [wishlist, setWishlist] = useState([]);
-  const [cart, setCart]=useState([])
+  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -184,24 +184,34 @@ function WishList() {
 
   const handleDelete = async (user, prodId) => {
     try {
+      // const response = await axios.get(`http://localhost:8080/users/${user}/wishlist`);
+      // const wishListId = response.data.wishlist
+      // setProductId(wishListId)
+      // console.log("prodiId", prodId)
       const res = await axios.put(
-        `http://localhost:8080/users/${user}/remove`, {prodId})
+        `http://localhost:8080/users/${user}/remove`,
+        { prodId }
+      );
       const list = [...wishlist];
       const listfilter = list.filter((item) => item._id !== prodId);
       setWishlist(listfilter);
-      console.log("wishlist delete", wishlist)
+      console.log("wishlist delete", wishlist);
     } catch (err) {
       console.log(err);
     }
   };
 
   const handleAddToCart = async (index) => {
-    setCart([...cart, wishlist[index]]);
     try {
-      if (cart.includes(wishlist[index])) {
+      const existingItem = cart.find((item) => item._id !== prodId);
+      console.log("exisiting item", existingItem);
+      if (existingItem) {
         alert("Item already in cart");
       } else {
-        await axios.post(`http://localhost:8080/users/${user}/cart`, {prodId: wishlist[index]});
+        setCart([...cart, wishlist[index]]);
+        await axios.post(`http://localhost:8080/users/${user}/cart`, {
+          prodId: wishlist[index],
+        });
         console.log("added to cart");
       }
     } catch (err) {
@@ -233,14 +243,15 @@ function WishList() {
                       <ProductSize>
                         <b>Size:</b> {item.sizes}
                       </ProductSize>
-                    <ShoppingCartIcon  onClick={() => handleAddToCart(index)} />
+                      <ShoppingCartIcon
+                        onClick={() => handleAddToCart(index, item._id)}
+                      />
                     </Details>
                   </ProductDetail>
                   <PriceDetail>
-                    <ProductName>
-                     Remove From Wishlist
-                      </ProductName>
-                    <ProductAmountContainer onClick={() => handleDelete(user,  item._id)}>
+                    <ProductName>Remove From Wishlist</ProductName>
+                    <ProductAmountContainer
+                      onClick={() => handleDelete(user, item._id)}>
                       <DeleteIcon />
                     </ProductAmountContainer>
                   </PriceDetail>
