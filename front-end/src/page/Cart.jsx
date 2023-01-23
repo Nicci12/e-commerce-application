@@ -153,15 +153,14 @@ const Button = styled.button`
   background-color: black;
   color: white;
   font-weight: 600;
-`;
-
+`
 
 const Cart = () => {
   const { user} = useContext(AppContext);
   const navigate = useNavigate();
-  const [cartItems, setCartItems] = useState([{}]);
-  const [checkedState, setCheckedState] = useState(new Array(cartItems.length).fill(false));
-  const [total, setTotal] = useState(0);
+  const [cartItems, setCartItems] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0);
+  let total = 0; 
 
 
   useEffect(() => {
@@ -169,17 +168,13 @@ const Cart = () => {
         try {
             const res = await axios.get(`http://localhost:8080/users/${user}/cart`);
             const cartIds = res.data;
-            console.log(cartIds)
             const requests = cartIds.map(async (id) => {
-              console.log("id", id)
               const productId = id.product;
               const product = await axios.get(`http://localhost:8080/products/cart/${productId}`);
               return product.data;
           });
             const items = await Promise.all(requests);
-            setCheckedState(new Array(items.length).fill(false));
-             console.log("items", items)
-            setCartItems(items);
+            setCartItems(items.map(item => ({...item, stock: 1})));
         } catch (error) {
             console.error(error);
         }
@@ -187,33 +182,64 @@ const Cart = () => {
     fetchData();
 }, [user]);
 
-const getFormattedPrice = (price) => `$${price.toFixed(2)}`;
+const calculateTotalPrice = () => {
+  cartItems.forEach((item) => {
+    item.price = parseFloat(item.price.replace("$", ""));
+    item.quantity = parseFloat(item.stock);
+});
 
-const handleOnChange = (position) => {
-  const updatedCheckedState = [...checkedState];
-  updatedCheckedState[position] = !updatedCheckedState[position];
-  setCheckedState(updatedCheckedState);
-  let totalPrice = 0;
-  for (let i = 0; i < cartItems.length; i++) {
-      if (updatedCheckedState[i]) {
-          totalPrice += cartItems[i].price;
-      }
-  }
-  setTotal(totalPrice);
+  // const total = cartItems.reduce((acc, item) => acc + (parseFloat(item.price.toString()) * (parseFloat(item.stock))),2);
+  const total = cartItems.reduce((acc, item) => acc + (parseFloat(item.price.toString()) * (isNaN(item.stock.toString()) ? 1 : item.stock)), 2);
+  // const total = cartItems.reduce((acc, item) => acc + (parseFloat(item.price) * parseFloat(item.quantity)), 2);
+  console.log("total", total)
+  setTotalPrice(total);
 };
 
-const handleOnClick = (position) => {
-  const updatedCheckedState = [...checkedState];
-  updatedCheckedState[position] = !updatedCheckedState[position];
-  setCheckedState(updatedCheckedState);
-  let totalPrice = 0;
-  for (let i = 0; i < cartItems.length; i++) {
-      if (updatedCheckedState[i]) {
-          totalPrice += cartItems[i].price;
-      }
-  }
-  setTotal(totalPrice);
-};
+useEffect(() => {
+  calculateTotalPrice();
+}, [cartItems])
+
+const changeQuantity = (index, newQuantity) => {
+  const newCartItems = [...cartItems];
+  newCartItems[index].stock = newQuantity;
+  setCartItems(newCartItems);
+}
+
+const handleAdd = (index) => {
+  changeQuantity(index, cartItems[index].stock + 1);
+  calculateTotalPrice();
+}
+const handleRemove = (index) => {
+  changeQuantity(index, cartItems[index].stock - 1);
+  calculateTotalPrice();
+}
+
+// const handleOnChange = (position) => {
+//   const updatedCheckedState = [...checkedState];
+//   updatedCheckedState[position] = !updatedCheckedState[position];
+//   setCheckedState(updatedCheckedState);
+//   let totalPrice = 0;
+//   for (let i = 0; i < cartItems.length; i++) {
+//       if (updatedCheckedState[i]) {
+//           totalPrice += cartItems[i].price;
+//       }
+//   }
+//   setTotal(totalPrice);
+// };
+
+// const handleOnClick = (position) => {
+//   const updatedCheckedState = [...checkedState];
+//   updatedCheckedState[position] = !updatedCheckedState[position];
+//   setCheckedState(updatedCheckedState);
+//   let totalPrice = 0;
+//   for (let i = 0; i < cartItems.length; i++) {
+//       if (updatedCheckedState[i]) {
+//           totalPrice += cartItems[i].price;
+//       }
+//   }
+//   setTotal(totalPrice);
+//   console.log("total", total)
+// };
 
 function Return() {
   navigate("/products");
@@ -234,7 +260,7 @@ function Return() {
         <Bottom>
           <Info>
           {cartItems.map((item, index) => (
-    <Product key={item._id}>
+    <Product key={index}>
         <ProductDetail>
             <Image src={item.images} />
             <Details>
@@ -251,12 +277,12 @@ function Return() {
         </ProductDetail>
         <PriceDetail>
             <ProductAmountContainer>
-                <Add />
+                <Add onClick={() => handleAdd(index)}/>
                 <ProductAmount>{item.stock}</ProductAmount>
-                <Remove />
+                <Remove onClick={() => handleRemove(index)} />
             </ProductAmountContainer>
             <ProductPrice>{item.price}</ProductPrice>
-            <input
+            {/* <input
                     type="checkbox"
                     data-testid="ch1"
                     id={`custom-checkbox-${index}`}
@@ -264,13 +290,13 @@ function Return() {
                     value={item.price}
                     checked={checkedState[index]}
                     onChange={() => handleOnChange(index)}
-                  />
+                  /> */}
         </PriceDetail>
     </Product>
 ))}
           </Info>
           <Summary>
-         <button onClick={handleOnClick}>Button</button>
+         {/* <button onClick={handleOnClick}>Button</button> */}
             <SummaryTitle>ORDER SUMMARY</SummaryTitle>
             <SummaryItem>
               <SummaryItemText>Subtotal</SummaryItemText>
@@ -282,11 +308,11 @@ function Return() {
             </SummaryItem>
             <SummaryItem>
               <SummaryItemText>Shipping Discount</SummaryItemText>
-              <SummaryItemPrice>${total}</SummaryItemPrice>
+              <SummaryItemPrice>$</SummaryItemPrice>
             </SummaryItem>
             <SummaryItem type="total">
-            <SummaryItemText>Total</SummaryItemText>
-         <SummaryItemPrice>{getFormattedPrice(total)}</SummaryItemPrice>
+            <SummaryItemText>Total </SummaryItemText>
+         <SummaryItemPrice>Total: {totalPrice}</SummaryItemPrice>
        </SummaryItem>
             <Button>CHECKOUT NOW</Button>
           </Summary>

@@ -156,8 +156,9 @@ const Button = styled.button`
   font-weight: 600;
 `;
 function WishList() {
-  const { user, productsList } = useContext(AppContext);
+  const { user, prodId} = useContext(AppContext);
   const [wishlist, setWishlist] = useState([]);
+  const [cart, setCart]=useState([])
 
   useEffect(() => {
     async function fetchData() {
@@ -181,23 +182,32 @@ function WishList() {
     fetchData();
   }, [user]);
 
-  // useEffect(() => {
-  //   async function fetchData() {
-  //     const res = await axios.get(`http://localhost:8080/users/${user}/wishlist`);
-  //    const array=res.data.wishlist
-  //    array.forEach(async () => {
-  //    const wishlist = await axios.get(`http://localhost:8080/products/wishlist/${array}`)
-  //    setWishlist((prev) => [...prev, wishlist.data]);
-  //   //  console.log("array", array)
-  //   //  console.log("prodcuts", products.data)
-  //   }
-  // )}
-  //   fetchData();
-  // }, []);
+  const handleDelete = async (user, prodId) => {
+    try {
+      const res = await axios.put(
+        `http://localhost:8080/users/${user}/remove`, {prodId})
+      const list = [...wishlist];
+      const listfilter = list.filter((item) => item._id !== prodId);
+      setWishlist(listfilter);
+      console.log("wishlist delete", wishlist)
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
-  // if (!wishlist) {
-  //   return <div>Loading...</div>;
-  // }
+  const handleAddToCart = async (index) => {
+    setCart([...cart, wishlist[index]]);
+    try {
+      if (cart.includes(wishlist[index])) {
+        alert("Item already in cart");
+      } else {
+        await axios.post(`http://localhost:8080/users/${user}/cart`, {prodId: wishlist[index]});
+        console.log("added to cart");
+      }
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   return (
     <>
@@ -208,7 +218,7 @@ function WishList() {
           <Title>Your Wishlist</Title>
           <Bottom>
             <Info>
-              {wishlist.map((item) => (
+              {wishlist.map((item, index) => (
                 <Product key={item._id}>
                   <ProductDetail>
                     <Image src={item.images} />
@@ -223,40 +233,20 @@ function WishList() {
                       <ProductSize>
                         <b>Size:</b> {item.sizes}
                       </ProductSize>
-                    <ShoppingCartIcon />
+                    <ShoppingCartIcon  onClick={() => handleAddToCart(index)} />
                     </Details>
                   </ProductDetail>
                   <PriceDetail>
                     <ProductName>
                      Remove From Wishlist
                       </ProductName>
-                    <ProductAmountContainer>
+                    <ProductAmountContainer onClick={() => handleDelete(user,  item._id)}>
                       <DeleteIcon />
                     </ProductAmountContainer>
                   </PriceDetail>
                 </Product>
               ))}
             </Info>
-            {/* <Summary>
-              <SummaryTitle>ORDER SUMMARY</SummaryTitle>
-              <SummaryItem>
-                <SummaryItemText>Subtotal</SummaryItemText>
-                <SummaryItemPrice>$ 80</SummaryItemPrice>
-              </SummaryItem>
-              <SummaryItem>
-                <SummaryItemText>Estimated Shipping</SummaryItemText>
-                <SummaryItemPrice>$ 5.90</SummaryItemPrice>
-              </SummaryItem>
-              <SummaryItem>
-                <SummaryItemText>Shipping Discount</SummaryItemText>
-                <SummaryItemPrice>$ -5.90</SummaryItemPrice>
-              </SummaryItem>
-              <SummaryItem type="total">
-                <SummaryItemText>Total</SummaryItemText>
-                <SummaryItemPrice>$ 80</SummaryItemPrice>
-              </SummaryItem>
-              <Button>CHECKOUT NOW</Button>
-            </Summary> */}
           </Bottom>
         </Wrapper>
         <Footer />
