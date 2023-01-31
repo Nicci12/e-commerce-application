@@ -7,7 +7,8 @@ import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AppContext from "../context/appContext";
-import styled from "styled-components";
+import styled from "styled-components"
+import FilterModal from "./FilterModal";
 
 const Info = styled.div`
   opacity: 0;
@@ -70,7 +71,7 @@ const Icon = styled.div`
 `;
 
 const GetAllProducts = ({ product }) => {
-  const { user, token } = useContext(AppContext);
+  const { user} = useContext(AppContext);
   const [prodId, setProdId] = useState(product._id);
   const [wishlist, setWishlist] = useState([]);
   const [cart, setCart] = useState([]);
@@ -113,6 +114,7 @@ const GetAllProducts = ({ product }) => {
   };
 
   return (
+    <>
     <Container>
       <Circle />
       <Image src={product.images} />
@@ -131,6 +133,7 @@ const GetAllProducts = ({ product }) => {
         </Icon>
       </Info>
     </Container>
+    </>
   );
 };
 

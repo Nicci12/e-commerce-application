@@ -20,6 +20,12 @@ function App() {
   const [prodId, setProdId]= useState([])
   const [user, setUser] = useState([])
   const [logged, setLogged]= useState(false)
+  const [item, setItem] = useState("");
+  const [color, setColor] = useState("");
+  const [gender, setGender] = useState("");
+  const [price, setPrice] = useState("");
+  const [sizes, setSizes] = useState("");
+  const [filter, setFilter] = useState([]);
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -40,25 +46,22 @@ function App() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`${baseUrl}/products`);
+      const response = await axios.get(`http://localhost:8080/products`);
       const data = response.data;
+      setProductsList(response.data);
       setProdId(data.map((product) => product._id));
-      setProductsList(data);
     } catch (error) {
       console.log(error);
     }
   }
+
 useEffect(() => {
     fetchProducts();
 }, []);
 
-useEffect(() => {
-    console.log(prodId)
-  }, [prodId]);
-
   return (
     <>
-      <AppContext.Provider value={{ token, setToken, logged, setLogged, productsList, setProductsList, user, setUser, prodId, setProdId}}>
+      <AppContext.Provider value={{ token, setToken, logged, setLogged, productsList, setProductsList, user, setUser, prodId, setProdId, fetchProducts,  color,setColor, gender, setGender, price, setPrice, sizes, setSizes,item, setItem, setFilter, filter}}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />

@@ -4,6 +4,7 @@ import { Add, Remove } from "@mui/icons-material";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import { mobile } from "../responsive";
@@ -19,6 +20,7 @@ const Wrapper = styled.div`
 const Title = styled.h1`
   font-weight: 300;
   text-align: center;
+  padding-bottom: 20px;
 `;
 
 const Top = styled.div`
@@ -157,7 +159,7 @@ const Button = styled.button`
 `;
 
 const Cart = () => {
-  const { user } = useContext(AppContext);
+  const { user, prodId } = useContext(AppContext);
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -168,13 +170,20 @@ const Cart = () => {
       try {
         const res = await axios.get(`http://localhost:8080/users/${user}/cart`);
         const cartIds = res.data;
+        console.log("cartIds", cartIds);
         const requests = cartIds.map(async (id) => {
-          const productId = id.product;
           const product = await axios.get(
-            `http://localhost:8080/products/cart/${productId}`
+            `http://localhost:8080/products/${id}`
           );
           return product.data;
         });
+        // const requests = cartIds.map(async (id) => {
+        //   const productId = id.product;
+        //   const product = await axios.get(
+        //     `http://localhost:8080/products/cart/${productId}`
+        //   );
+        //   return product.data;
+        // });
         const items = await Promise.all(requests);
         setCartItems(items.map((item) => ({ ...item, stock: 1 })));
       } catch (error) {
@@ -190,7 +199,6 @@ const Cart = () => {
         acc + item.price * (isNaN(item.stock) ? 1 : parseInt(item.stock)),
       0
     );
-    console.log("total", total);
     setTotalPrice(total);
   };
 
@@ -213,32 +221,20 @@ const Cart = () => {
     calculateTotalPrice();
   };
 
-  // const handleOnChange = (position) => {
-  //   const updatedCheckedState = [...checkedState];
-  //   updatedCheckedState[position] = !updatedCheckedState[position];
-  //   setCheckedState(updatedCheckedState);
-  //   let totalPrice = 0;
-  //   for (let i = 0; i < cartItems.length; i++) {
-  //       if (updatedCheckedState[i]) {
-  //           totalPrice += cartItems[i].price;
-  //       }
-  //   }
-  //   setTotal(totalPrice);
-  // };
-
-  // const handleOnClick = (position) => {
-  //   const updatedCheckedState = [...checkedState];
-  //   updatedCheckedState[position] = !updatedCheckedState[position];
-  //   setCheckedState(updatedCheckedState);
-  //   let totalPrice = 0;
-  //   for (let i = 0; i < cartItems.length; i++) {
-  //       if (updatedCheckedState[i]) {
-  //           totalPrice += cartItems[i].price;
-  //       }
-  //   }
-  //   setTotal(totalPrice);
-  //   console.log("total", total)
-  // };
+  const handleDelete = async (user, prodId) => {
+    try {
+      const res = await axios.put(
+        `http://localhost:8080/users/${user}/removecart`,
+        { prodId }
+      );
+      const array = [...cartItems];
+      const cartArray = array.filter((item) => item._id !== prodId);
+      setCartItems(cartArray);
+      console.log("cart delete", cartItems);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   function Return() {
     navigate("/products");
@@ -249,41 +245,42 @@ const Cart = () => {
         <Navbar />
         <Announcement />
         <Wrapper>
-          <Title>YOUR BAG</Title>
-          <Top>
-            <TopTexts>
-              <TopText>Shopping Bag(2)</TopText>
-              <TopText>Your Wishlist (0)</TopText>
-            </TopTexts>
-          </Top>
+          <Title> </Title>
           <Bottom>
             <Info>
-              {cartItems.map((item, index) => (
-                <Product key={index}>
-                  <ProductDetail>
-                    <Image src={item.images} />
-                    <Details>
-                      <ProductName>
-                        <b>Product:</b> {item.item}
-                      </ProductName>
-                      <ProductId></ProductId>
-                      <ProductColor color={item.color} />
-                      <ProductSize>
-                        <b>Size:</b> {item.sizes}
-                      </ProductSize>
-                      <DeleteIcon />
-                    </Details>
-                  </ProductDetail>
-                  <PriceDetail>
-                    <ProductAmountContainer>
-                      <Add onClick={() => handleAdd(index)} />
-                      <ProductAmount>{item.stock}</ProductAmount>
-                      <Remove onClick={() => handleRemove(index)} />
-                    </ProductAmountContainer>
-                    <ProductPrice>{item.price}</ProductPrice>
-                  </PriceDetail>
-                </Product>
-              ))}
+              {cartItems.length === 0 ? (
+                <h1>YOUR CART IS EMPTY</h1>
+              ) : (
+                cartItems.map((item, index) => (
+                  <Product key={item._id}>
+                    <ProductDetail>
+                      <Image src={item.images} />
+                      <Details>
+                        <ProductName>
+                          <b>Product:</b> {item.item}
+                        </ProductName>
+                        <ProductId></ProductId>
+                        <ProductColor color={item.color} />
+                        <ProductSize>
+                          <b>Size:</b> {item.sizes}
+                        </ProductSize>
+                        <DeleteIcon
+                          onClick={() =>
+                            handleDelete(user, item._id)
+                          }></DeleteIcon>
+                      </Details>
+                    </ProductDetail>
+                    <PriceDetail>
+                      <ProductAmountContainer>
+                        <Add onClick={() => handleAdd(index)} />
+                        <ProductAmount>{item.stock}</ProductAmount>
+                        <Remove onClick={() => handleRemove(index)} />
+                      </ProductAmountContainer>
+                      <ProductPrice>{item.price}</ProductPrice>
+                    </PriceDetail>
+                  </Product>
+                ))
+              )}
             </Info>
             <Summary>
               <SummaryTitle>ORDER SUMMARY</SummaryTitle>

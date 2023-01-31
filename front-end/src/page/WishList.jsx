@@ -21,6 +21,25 @@ const Title = styled.h1`
   text-align: center;
 `;
 
+const EmptyWishlistContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+`;
+
+const EmptyWishlistImage = styled.img`
+  width: 150px;
+  height: 150px;
+`;
+
+const EmptyWishlistHeading = styled.h2`
+  font-size: 2rem;
+  font-weight: bold;
+  margin-top: 20px;
+  color: #5e5e5e;
+`;
+
 const Top = styled.div`
   display: flex;
   align-items: center;
@@ -149,12 +168,20 @@ const SummaryItemText = styled.span``;
 const SummaryItemPrice = styled.span``;
 
 const Button = styled.button`
-  width: 100%;
-  padding: 10px;
-  background-color: black;
-  color: white;
-  font-weight: 600;
+width: 100%;
+padding: 10px;
+background-color: black;
+color: white;
+font-weight: 600;
 `;
+const EmptyWishlist = () => {
+  return (
+    <EmptyWishlistContainer>
+      <EmptyWishlistImage src="./img/cart.svg" alt="Empty Wishlist" />
+      <EmptyWishlistHeading>Your Wishlist Is Empty</EmptyWishlistHeading>
+    </EmptyWishlistContainer>
+  );
+}
 function WishList() {
   const { user, prodId } = useContext(AppContext);
   const [wishlist, setWishlist] = useState([]);
@@ -184,10 +211,6 @@ function WishList() {
 
   const handleDelete = async (user, prodId) => {
     try {
-      // const response = await axios.get(`http://localhost:8080/users/${user}/wishlist`);
-      // const wishListId = response.data.wishlist
-      // setProductId(wishListId)
-      // console.log("prodiId", prodId)
       const res = await axios.put(
         `http://localhost:8080/users/${user}/remove`,
         { prodId }
@@ -225,10 +248,11 @@ function WishList() {
         <Navbar />
         <Announcement />
         <Wrapper>
-          <Title>Your Wishlist</Title>
+          <Title>Your Wishlist:</Title>
           <Bottom>
             <Info>
-              {wishlist.map((item, index) => (
+            {wishlist.length === 0 ? <EmptyWishlist /> : 
+              wishlist.map((item, index) => (
                 <Product key={item._id}>
                   <ProductDetail>
                     <Image src={item.images} />
@@ -256,7 +280,8 @@ function WishList() {
                     </ProductAmountContainer>
                   </PriceDetail>
                 </Product>
-              ))}
+              ))
+}
             </Info>
           </Bottom>
         </Wrapper>

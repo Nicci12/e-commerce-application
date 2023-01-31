@@ -1,6 +1,6 @@
 import { Badge } from "@mui/material";
-import { Search, ShoppingCartOutlined } from "@mui/icons-material"
-import React, {useContext} from "react";
+import { Search, ShoppingCartOutlined } from "@mui/icons-material";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
@@ -68,69 +68,74 @@ const MenuItem = styled.div`
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 const NoMenuItem = styled.div`
-  display:none
-  ${mobile({ fontSize: "12px", marginLeft: "10px" })}
+  display: none ${mobile({ fontSize: "12px", marginLeft: "10px" })};
 `;
 
 const Navbar = () => {
-  const { logged, setLogged} = useContext(appContext);
-  let navigate = useNavigate()
+  const { logged, setLogged } = useContext(appContext);
+  let navigate = useNavigate();
 
-  function Logging(){
+  function Logging() {
     setLogged(true);
-    navigate("/login")
+    navigate("/login");
     setLogged(false);
   }
 
-  function Logout(){
+  function Logout() {
     setLogged(false);
-    navigate("/")
+    navigate("/");
     localStorage.clear();
   }
 
-  function Register(){
-    navigate("/register")
+  function Register() {
+    navigate("/register");
   }
 
-  function Home(){
-    navigate("/")
+  function Home() {
+    navigate("/");
   }
 
-  function Cart(){
-    navigate("/users/cart")
+  function Cart() {
+    navigate("/users/cart");
   }
 
-  function Wishlist(){
-    navigate("/users/:id/wishlist")
+  function Wishlist() {
+    navigate("/users/:id/wishlist");
   }
 
-
-
-  return ( 
+  return (
     <>
-    <Container>
-      <Wrapper>
-        <Left>
-          <Language>EN</Language>
-          <SearchContainer>
-            <Input placeholder="Search" />
-            <Search style={{ color: "gray", fontSize: 16 }} />
-          </SearchContainer>
-        </Left>
-        <Center>
-          <Logo onClick={Home}>E-SHOP</Logo>
-        </Center>
-        <Right>
-        {logged ? (<MenuItem onClick={Wishlist}>WishList</MenuItem>):(<MenuItem onClick={Register}>Register</MenuItem>) }
-          {logged ?(<MenuItem onClick={Logout}>Log Out</MenuItem>) : (<MenuItem onClick={Logging}>Sign In</MenuItem>)} 
-          <MenuItem>
-            <Badge badgeContent={4} color="primary">
-              <ShoppingCartOutlined onClick={Cart} />
-            </Badge>
-          </MenuItem>
-        </Right>
-      </Wrapper>
-    </Container>
+      <Container>
+        <Wrapper>
+          <Left>
+            <Language>EN</Language>
+            <SearchContainer>
+              <Input placeholder="Search" />
+              <Search style={{ color: "gray", fontSize: 16 }} />
+            </SearchContainer>
+          </Left>
+          <Center>
+            <Logo onClick={Home}>E-SHOP</Logo>
+          </Center>
+          <Right>
+            {logged ? (
+              <MenuItem onClick={Wishlist}>WishList</MenuItem>
+            ) : (
+              <MenuItem onClick={Register}>Register</MenuItem>
+            )}
+            {logged ? (
+              <MenuItem onClick={Logout}>Log Out</MenuItem>
+            ) : (
+              <MenuItem onClick={Logging}>Sign In</MenuItem>
+            )}
+            <MenuItem>
+              <Badge badgeContent={4} color="primary">
+                <ShoppingCartOutlined onClick={Cart} />
+              </Badge>
+            </MenuItem>
+          </Right>
+        </Wrapper>
+      </Container>
     </>
   );
 };

@@ -4,7 +4,7 @@ import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
 import Navbar from "../components/Navbar";
 import Newsletter from "../components/Newsletter";
-import React, { useState, useEffect, useContext} from "react";
+import React, { useState, useEffect, useContext } from "react";
 import AppContext from "../context/appContext";
 import { useParams } from "react-router-dom";
 import axios from "axios";
@@ -119,11 +119,13 @@ const Button = styled.button`
 `;
 
 const Product = () => {
-  const { user} = useContext(AppContext);
-  const [cart, setCart]=useState([])
-    const [product, setProduct] = useState([]);
-    const [prodId, setProdId]=useState(product._id)
+  const { user } = useContext(AppContext);
+  const [cart, setCart] = useState([]);
+  const [product, setProduct] = useState([]);
+  const [prodId, setProdId] = useState(product._id);
   const { id } = useParams();
+
+  
   useEffect(() => {
     async function fetchProductData() {
       const { data } = await axios.get(`http://localhost:8080/products/${id}`);
@@ -131,7 +133,6 @@ const Product = () => {
     }
     fetchProductData();
   }, [id]);
-
 
   const handleAddToCart = async () => {
     try {
