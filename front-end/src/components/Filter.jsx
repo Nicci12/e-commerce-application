@@ -51,7 +51,7 @@ function Filter(props) {
   
       axios
         .get(
-          `http://localhost:8080/products/search?item=${item}&color=${color}&gender=${gender}&price=${price}&size=${size}`
+          `http://${baseUrl}/products/search?item=${item}&color=${color}&gender=${gender}&price=${price}&size=${size}`
         )
         .then((response) => {
           setSearchProduct(response.data);

@@ -68,13 +68,13 @@ const Button = styled.button`
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { setToken, setLogged, setUser } = useContext(AppContext);
+  const { setToken, setLogged, setUser, baseUrl } = useContext(AppContext);
   let navigate = useNavigate();
 
   const handleLogIn = async (e) => {
     try {
       e.preventDefault();
-      const res = await axios.post("http://localhost:8080/users/login", {
+      const res = await axios.post(`http://${baseUrl}/users/login`, {
         email,
         password,
       });

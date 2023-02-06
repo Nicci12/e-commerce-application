@@ -47,7 +47,7 @@ function App() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`http://localhost:8080/products`);
+      const response = await axios.get(`http://${baseUrl}/products`);
       const data = response.data;
       setProductsList(response.data);
       setProdId(data.map((product) => product._id));
@@ -62,7 +62,7 @@ useEffect(() => {
 
   return (
     <>
-      <AppContext.Provider value={{ token, setToken, logged, setLogged, productsList, setProductsList, user, setUser, prodId, setProdId, fetchProducts,  color,setColor, gender, setGender, price, setPrice, sizes, setSizes,item, setItem, setFilter, filter}}>
+      <AppContext.Provider value={{ baseUrl, token, setToken, logged, setLogged, productsList, setProductsList, user, setUser, prodId, setProdId, fetchProducts,  color,setColor, gender, setGender, price, setPrice, sizes, setSizes,item, setItem, setFilter, filter}}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -73,7 +73,6 @@ useEffect(() => {
             <Route path="/products/:id" element={<Product />} />
             <Route path="/users/:id/wishlist" element={<WishList />} />
             <Route path="/users/cart" element={<Cart />} />
-
           </Routes>
         </BrowserRouter>
       </AppContext.Provider>

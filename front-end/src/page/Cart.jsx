@@ -213,7 +213,7 @@ const EmptyCartlist = () => {
 };
 
 const Cart = () => {
-  const { user, prodId } = useContext(AppContext);
+  const { user, baseUrl } = useContext(AppContext);
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -222,12 +222,12 @@ const Cart = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(`http://localhost:8080/users/${user}/cart`);
+        const res = await axios.get(`http://${baseUrl}/users/${user}/cart`);
         const cartIds = res.data;
         console.log("cartIds", cartIds);
         const requests = cartIds.map(async (id) => {
           const product = await axios.get(
-            `http://localhost:8080/products/${id}`
+            `http://${baseUrl}/products/${id}`
           );
           return product.data;
         });
@@ -278,7 +278,7 @@ const Cart = () => {
   const handleDelete = async (user, prodId) => {
     try {
       const res = await axios.put(
-        `http://localhost:8080/users/${user}/removecart`,
+        `http://${baseUrl}/users/${user}/removecart`,
         { prodId }
       );
       const array = [...cartItems];

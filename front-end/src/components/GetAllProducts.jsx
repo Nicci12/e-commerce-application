@@ -71,7 +71,7 @@ const Icon = styled.div`
 `;
 
 const GetAllProducts = ({ product }) => {
-  const { user} = useContext(AppContext);
+  const { user, baseUrl} = useContext(AppContext);
   const [prodId, setProdId] = useState(product._id);
   const [wishlist, setWishlist] = useState([]);
   const [cart, setCart] = useState([]);
@@ -87,7 +87,7 @@ const GetAllProducts = ({ product }) => {
       if (wishlist.includes(prodId)) {
         alert("Item already in wishlist");
       } else {
-        await axios.post(`http://localhost:8080/users/${user}/wishlist`, {
+        await axios.post(`http://${baseUrl}/users/${user}/wishlist`, {
           prodId: prodId,
         });
         alert("added to wishlist");
@@ -103,7 +103,7 @@ const GetAllProducts = ({ product }) => {
       if (cart.includes(prodId)) {
         alert("Item already in cart");
       } else {
-        await axios.post(`http://localhost:8080/users/${user}/cart`, {
+        await axios.post(`http://${baseUrl}/users/${user}/cart`, {
           prodId: prodId,
         });
         alert("added to cart");

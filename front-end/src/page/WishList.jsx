@@ -202,7 +202,7 @@ const EmptyWishlist = () => {
   );
 }
 function WishList() {
-  const { user, prodId } = useContext(AppContext);
+  const { user, prodId, baseUrl } = useContext(AppContext);
   const [wishlist, setWishlist] = useState([]);
   const [cart, setCart] = useState([]);
 
@@ -210,12 +210,12 @@ function WishList() {
     async function fetchData() {
       try {
         const res = await axios.get(
-          `http://localhost:8080/users/${user}/wishlist`
+          `http://${baseUrl}/users/${user}/wishlist`
         );
         const wishlistIds = res.data.wishlist;
         const requests = wishlistIds.map(async (id) => {
           const product = await axios.get(
-            `http://localhost:8080/products/${id}`
+            `http://${baseUrl}/products/${id}`
           );
           return product.data;
         });
@@ -231,7 +231,7 @@ function WishList() {
   const handleDelete = async (user, prodId) => {
     try {
       const res = await axios.put(
-        `http://localhost:8080/users/${user}/remove`,
+        `http://${baseUrl}/users/${user}/remove`,
         { prodId }
       );
       const list = [...wishlist];
@@ -251,7 +251,7 @@ function WishList() {
         alert("Item already in cart");
       } else {
         setCart([...cart, wishlist[index]]);
-        await axios.post(`http://localhost:8080/users/${user}/cart`, {
+        await axios.post(`http://${baseUrl}/users/${user}/cart`, {
           prodId: wishlist[index],
         });
         console.log("added to cart");

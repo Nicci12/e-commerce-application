@@ -11,6 +11,7 @@ import {
 } from "mdb-react-ui-kit";
 import Navbar from "../components/Navbar";
 import Social from "../components/Socials";
+import AppContext from "../context/appContext";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios'
 
@@ -25,6 +26,7 @@ const Button = styled.button`
 `;
 
 const Signup = () => {
+  const {baseUrl} = useContext(AppContext);
   const [userInfo, setUserInfo] = useState({});
   let navigate = useNavigate();
 
@@ -36,7 +38,7 @@ const Signup = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("http://localhost:8080/users/signup", userInfo);
+      const res = await axios.post(`http://${baseUrl}/users/signup`, userInfo);
       if (res.data.userId) {
         navigate("/login");
       }

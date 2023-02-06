@@ -119,7 +119,7 @@ const Button = styled.button`
 `;
 
 const Product = () => {
-  const { user } = useContext(AppContext);
+  const { user, baseUrl } = useContext(AppContext);
   const [cart, setCart] = useState([]);
   const [product, setProduct] = useState([]);
   const [prodId, setProdId] = useState(product._id);
@@ -128,7 +128,7 @@ const Product = () => {
   
   useEffect(() => {
     async function fetchProductData() {
-      const { data } = await axios.get(`http://localhost:8080/products/${id}`);
+      const { data } = await axios.get(`http://${baseUrl}/products/${id}`);
       setProduct(data);
     }
     fetchProductData();
@@ -140,7 +140,7 @@ const Product = () => {
         alert("Item already in cart");
       } else {
         setCart([...cart, product._id]);
-        await axios.post(`http://localhost:8080/users/${user}/cart`, {
+        await axios.post(`http://${baseUrl}/users/${user}/cart`, {
           prodId: prodId,
         });
         alert("added to cart");
