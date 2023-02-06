@@ -12,6 +12,7 @@ import {
   
   const Container = styled.div`
     display: flex;
+    margin: 90px 0 0 0;
     ${mobile({ flexDirection: "column" })}
   `;
   

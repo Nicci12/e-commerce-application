@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AppContext from "../context/appContext";
 import styled from "styled-components"
-import FilterModal from "./FilterModal";
+
 
 const Info = styled.div`
   opacity: 0;

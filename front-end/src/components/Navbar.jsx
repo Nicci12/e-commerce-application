@@ -72,8 +72,9 @@ const NoMenuItem = styled.div`
 `;
 
 const Navbar = () => {
-  const { logged, setLogged } = useContext(appContext);
+  const { logged, setLogged} = useContext(appContext);
   let navigate = useNavigate();
+
 
   function Logging() {
     setLogged(true);

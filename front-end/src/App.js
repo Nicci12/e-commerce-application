@@ -43,6 +43,7 @@ function App() {
     }
   }, []);
 
+  
 
   const fetchProducts = async () => {
     try {

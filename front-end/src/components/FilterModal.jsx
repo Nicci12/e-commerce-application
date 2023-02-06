@@ -1,4 +1,4 @@
-import Filter from "./Filter";
+
 import React, { useState, useContext, useEffect } from "react";
 import Button from "react-bootstrap/Button";
 import { Row } from "react-bootstrap";
@@ -24,13 +24,13 @@ function FilterModal() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  // const [productArray, setProductArray] = useState({
-  //   item: "",
-  //   color: "",
-  //   gender: "",
-  //   price: "",
-  //   sizes: "",
-  // });
+  const [productArray, setProductArray] = useState({
+    item: "",
+    color: "",
+    gender: "",
+    price: "",
+    sizes: "",
+  });
 
 
   const onSearch= async (e) => {

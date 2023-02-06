@@ -34,10 +34,10 @@ const EmptyWishlistImage = styled.img`
 `;
 
 const EmptyWishlistHeading = styled.h2`
-  font-size: 2rem;
-  font-weight: bold;
-  margin-top: 20px;
-  color: #5e5e5e;
+font-size: 2rem;
+font-weight: bold;
+margin: 30px 0 10px 0;
+color: #5e5e5e;
 `;
 
 const Top = styled.div`
@@ -55,6 +55,10 @@ const TopButton = styled.button`
   background-color: ${(props) =>
     props.type === "filled" ? "black" : "transparent"};
   color: ${(props) => props.type === "filled" && "white"};
+  &:hover {
+    background-color: teal;
+    color: black;
+  }
 `;
 
 const TopTexts = styled.div`
@@ -125,6 +129,14 @@ const ProductAmountContainer = styled.div`
   margin-bottom: 20px;
 `;
 
+
+const EmptyWishListSubHeading = styled.h6`
+  text-aling:center
+  font-weight: bold;
+  margin: 10px 30px 30px 30px;
+  color: #5e5e5e;
+`;
+
 const ProductAmount = styled.div`
   font-size: 24px;
   margin: 5px;
@@ -167,6 +179,7 @@ const SummaryItemText = styled.span``;
 
 const SummaryItemPrice = styled.span``;
 
+
 const Button = styled.button`
 width: 100%;
 padding: 10px;
@@ -175,10 +188,16 @@ color: white;
 font-weight: 600;
 `;
 const EmptyWishlist = () => {
+  const navigate = useNavigate();
+  function Return() {
+    navigate("/products");
+  }
   return (
     <EmptyWishlistContainer>
-      <EmptyWishlistImage src="./img/cart.svg" alt="Empty Wishlist" />
+      <EmptyWishlistImage src="https://i.pinimg.com/originals/f6/e4/64/f6e464230662e7fa4c6a4afb92631aed.png" alt="Empty Wishlist" />
       <EmptyWishlistHeading>Your Wishlist Is Empty</EmptyWishlistHeading>
+      <EmptyWishListSubHeading>Add Some Of Your Favourite Items for Later</EmptyWishListSubHeading>
+      <TopButton onClick={Return}>Continue Shopping</TopButton>
     </EmptyWishlistContainer>
   );
 }
@@ -248,7 +267,7 @@ function WishList() {
         <Navbar />
         <Announcement />
         <Wrapper>
-          <Title>Your Wishlist:</Title>
+          <Title></Title>
           <Bottom>
             <Info>
             {wishlist.length === 0 ? <EmptyWishlist /> : 

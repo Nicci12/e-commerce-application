@@ -38,6 +38,11 @@ const TopButton = styled.button`
   background-color: ${(props) =>
     props.type === "filled" ? "black" : "transparent"};
   color: ${(props) => props.type === "filled" && "white"};
+
+  &:hover {
+    background-color: teal;
+    color: black;
+  }
 `;
 
 const TopTexts = styled.div`
@@ -131,7 +136,7 @@ const Summary = styled.div`
   border: 0.5px solid lightgray;
   border-radius: 10px;
   padding: 20px;
-  height: 50vh;
+  height: 72vh;
 `;
 
 const SummaryTitle = styled.h1`
@@ -157,6 +162,55 @@ const Button = styled.button`
   color: white;
   font-weight: 600;
 `;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+`;
+const EmptyCartContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+`;
+
+const EmptyCartImage = styled.img`
+  width: 150px;
+  height: 150px;
+`;
+
+const EmptyCartlistHeading = styled.h2`
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 30px 0 10px 0;
+  color: #5e5e5e;
+`;
+
+const EmptyCartSubHeading = styled.h6`
+  text-aling:center
+  font-weight: bold;
+  margin: 10px 30px 30px 30px;
+  color: #5e5e5e;
+`;
+
+const EmptyCartlist = () => {
+  const navigate = useNavigate();
+  function Return() {
+    navigate("/products");
+  }
+  return (
+    <EmptyCartContainer>
+      <EmptyCartImage src="../img/bag.png" alt="Empty Wishlist" />
+      <EmptyCartlistHeading>Your Shopping Cart Is Empty</EmptyCartlistHeading>
+      <EmptyCartSubHeading>
+        Please add procuts to your cart in order to check out
+      </EmptyCartSubHeading>
+      <TopButton onClick={Return}>Continue Shopping</TopButton>
+    </EmptyCartContainer>
+  );
+};
 
 const Cart = () => {
   const { user, prodId } = useContext(AppContext);
@@ -245,11 +299,10 @@ const Cart = () => {
         <Navbar />
         <Announcement />
         <Wrapper>
-          <Title> </Title>
           <Bottom>
             <Info>
               {cartItems.length === 0 ? (
-                <h1>YOUR CART IS EMPTY</h1>
+                <EmptyCartlist />
               ) : (
                 cartItems.map((item, index) => (
                   <Product key={item._id}>
@@ -276,7 +329,7 @@ const Cart = () => {
                         <ProductAmount>{item.stock}</ProductAmount>
                         <Remove onClick={() => handleRemove(index)} />
                       </ProductAmountContainer>
-                      <ProductPrice>{item.price}</ProductPrice>
+                      <ProductPrice>${item.price}.00</ProductPrice>
                     </PriceDetail>
                   </Product>
                 ))
@@ -286,23 +339,27 @@ const Cart = () => {
               <SummaryTitle>ORDER SUMMARY</SummaryTitle>
               <SummaryItem>
                 <SummaryItemText>Subtotal</SummaryItemText>
-                <SummaryItemPrice>$ 80</SummaryItemPrice>
+                <SummaryItemPrice>$80.00</SummaryItemPrice>
               </SummaryItem>
               <SummaryItem>
                 <SummaryItemText>Estimated Shipping</SummaryItemText>
-                <SummaryItemPrice>$ 5.90</SummaryItemPrice>
+                <SummaryItemPrice>$5.90</SummaryItemPrice>
               </SummaryItem>
               <SummaryItem>
                 <SummaryItemText>Shipping Discount</SummaryItemText>
-                <SummaryItemPrice>$</SummaryItemPrice>
+                <SummaryItemPrice>$0.00</SummaryItemPrice>
               </SummaryItem>
               <SummaryItem type="total">
-                <SummaryItemPrice>Total: {totalPrice}</SummaryItemPrice>
+                <SummaryItemPrice>Total: ${totalPrice}</SummaryItemPrice>
               </SummaryItem>
               <Button>CHECKOUT NOW</Button>
             </Summary>
           </Bottom>
-          <TopButton onClick={Return}>CONTINUE SHOPPING</TopButton>
+          {cartItems.length === 0 ? (
+            <></>
+          ) : (
+            <TopButton onClick={Return}>CONTINUE SHOPPING</TopButton>
+          )}
         </Wrapper>
         <Footer />
       </Container>
