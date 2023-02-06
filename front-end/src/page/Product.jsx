@@ -128,7 +128,7 @@ const Product = () => {
   
   useEffect(() => {
     async function fetchProductData() {
-      const { data } = await axios.get(`http://${baseUrl}/products/${id}`);
+      const { data } = await axios.get(`https://${baseUrl}/products/${id}`);
       setProduct(data);
     }
     fetchProductData();
@@ -140,7 +140,7 @@ const Product = () => {
         alert("Item already in cart");
       } else {
         setCart([...cart, product._id]);
-        await axios.post(`http://${baseUrl}/users/${user}/cart`, {
+        await axios.post(`https://${baseUrl}/users/${user}/cart`, {
           prodId: prodId,
         });
         alert("added to cart");

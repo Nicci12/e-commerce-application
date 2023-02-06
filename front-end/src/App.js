@@ -47,7 +47,7 @@ function App() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`http://${baseUrl}/products`);
+      const response = await axios.get(`https://${baseUrl}/products`);
       const data = response.data;
       setProductsList(response.data);
       setProdId(data.map((product) => product._id));

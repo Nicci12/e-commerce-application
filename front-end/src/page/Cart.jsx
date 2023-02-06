@@ -222,12 +222,12 @@ const Cart = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(`http://${baseUrl}/users/${user}/cart`);
+        const res = await axios.get(`https://${baseUrl}/users/${user}/cart`);
         const cartIds = res.data;
         console.log("cartIds", cartIds);
         const requests = cartIds.map(async (id) => {
           const product = await axios.get(
-            `http://${baseUrl}/products/${id}`
+            `https://${baseUrl}/products/${id}`
           );
           return product.data;
         });
@@ -278,7 +278,7 @@ const Cart = () => {
   const handleDelete = async (user, prodId) => {
     try {
       const res = await axios.put(
-        `http://${baseUrl}/users/${user}/removecart`,
+        `https://${baseUrl}/users/${user}/removecart`,
         { prodId }
       );
       const array = [...cartItems];

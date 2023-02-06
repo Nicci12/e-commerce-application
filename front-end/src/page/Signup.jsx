@@ -38,7 +38,7 @@ const Signup = () => {
   const handleSignUp = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`http://${baseUrl}/users/signup`, userInfo);
+      const res = await axios.post(`https://${baseUrl}/users/signup`, userInfo);
       if (res.data.userId) {
         navigate("/login");
       }

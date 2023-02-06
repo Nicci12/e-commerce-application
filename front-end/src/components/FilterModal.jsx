@@ -39,7 +39,7 @@ function FilterModal() {
     try {
       const response = await 
       axios
-        .get(`http://${baseUrl}/products/filter?item=${item}&color=${color}&gender=${gender}&price=${price}&sizes=${sizes}`)
+        .get(`https://${baseUrl}/products/filter?item=${item}&color=${color}&gender=${gender}&price=${price}&sizes=${sizes}`)
       const data = response.data;
       setFilter(data);
     } catch (error) {

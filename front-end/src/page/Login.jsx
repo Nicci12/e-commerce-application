@@ -74,7 +74,7 @@ const Login = () => {
   const handleLogIn = async (e) => {
     try {
       e.preventDefault();
-      const res = await axios.post(`http://${baseUrl}/users/login`, {
+      const res = await axios.post(`https://${baseUrl}/users/login`, {
         email,
         password,
       });
