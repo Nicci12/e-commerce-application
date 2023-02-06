@@ -1,5 +1,5 @@
 const express = require("express");
-const PORT = process.env.PORT || 8080;
+const PORT = "http://e-commerce-application-pi.vercel.app"
 const cors = require("cors");
 const userRoute = require("./routes/userRoutes");
 const productRoute = require("./routes/productRoutes")
@@ -27,7 +27,7 @@ app.use("/users", userRoute);
 app.use("/products", productRoute);
 
 app.listen(PORT, () => {
-    console.log(`Listening on http://${PORT}`);
+    console.log(`Listening on ${PORT}`);
   });
   
   app.use((err, res,) => {
