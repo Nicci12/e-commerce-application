@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
-const User = require("../schemas/userSchema");
-const Product = require("../schemas/productSchema");
-const { productById } = require("../models/productModel");
-const { signUpModel } = require("../models/usersModel");
+const User = require("../../front-end/src/schemas/userSchema");
+const Product = require("../../front-end/src/schemas/productSchema");
+const { productById } = require("../../front-end/src/models/productModel");
+const { signUpModel } = require("../../front-end/src/models/usersModel");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
