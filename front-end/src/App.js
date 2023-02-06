@@ -14,7 +14,7 @@ import Product from "./page/Product";
 
 
 function App() {
-  const baseUrl = "e-commerce-application-pi.vercel.app";
+  const baseUrl = "e-commerce-application-6a3l.vercel.app";
   const [token, setToken] = useState("");
   const [productsList, setProductsList] = useState([])
   const [prodId, setProdId]= useState([])
