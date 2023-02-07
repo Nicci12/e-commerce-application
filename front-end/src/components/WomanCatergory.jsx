@@ -9,14 +9,20 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
+@media only screen and (max-width: 750px){
+ height:35vh;
+}
   width: 100%;
   height: 100%;
   object-fit: cover;
-  ${mobile({ height: "20vh" })}
 `;
 
 const Info = styled.div`
-  position: absolute;
+@media only screen and (max-width: 750px){
+   position: absolute;
+  font-size: 10px;
+ }
+ position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -28,6 +34,11 @@ const Info = styled.div`
 `;
 
 const Title = styled.h1`
+@media only screen and (max-width: 750px){
+  font-size:15px;
+  align-text: center;
+
+ }
     color:white;
     margin-bottom: 20px;
 `;

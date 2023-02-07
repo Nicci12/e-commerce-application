@@ -1,46 +1,11 @@
 import { Badge } from "@mui/material";
 import { Search, ShoppingCartOutlined } from "@mui/icons-material";
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
 import appContext from "../context/appContext";
-
-
-const MobileMenu = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  list-style: none;
-  position: fixed;
-  left: 0;
-  bottom: 0;
-  z-index: 99;
-  background: steelblue;
-  width: 100%;
-  height:100%;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
-  color: black;
-
-  @media (max-width: 767px) {
-    justify-content: space-around;
-    display: block;
-  }
-  
-  @media (max-width: 575px) {
-    justify-content: space-between;
-    padding: 15px 10px;
-  }
-  
-  @media (max-width: 360px) {
-    font-size: 10px;
-  }
-  
-  @media (max-width: 350px) {
-    padding: 15px 8px;
-  }
-`;
+import {Button} from 'react-bootstrap'
 
 const Container = styled.div`
   height: 60px;
@@ -86,10 +51,17 @@ const Center = styled.div`
 `;
 
 const Logo = styled.h1`
-  font-weight: bold;
+@media only screen and (max-width: 750px){}
+font-size: 18px;
+margin: 5px 0px 5px 10px;
+}
+font-weight: bold;
   ${mobile({ fontSize: "24px" })}
 `;
 const Right = styled.div`
+@media only screen and (max-width: 750px){
+  display:none
+}
   flex: 1;
   display: flex;
   align-items: center;
@@ -98,6 +70,11 @@ const Right = styled.div`
 `;
 
 const MenuItem = styled.div`
+@media only screen and (max-width: 750px){
+  font-size: 18px;
+  padding: 10px 10px 10px 10px
+  font-weight:bold
+}
   font-size: 14px;
   cursor: pointer;
   margin-left: 25px;
@@ -105,23 +82,77 @@ const MenuItem = styled.div`
 `;
 
 
+const HamburgerMenu = styled.div`
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+position: fixed;
+bottom: 10px;
+z-index: 100;
+background-color: white;
+box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+border-radius: 50%;
+cursor: pointer;
+height: 50px;
+width: 50px;
+> div {
+  border: 2px solid black;
+  border-radius: 10px;
+  margin: 3px;
+  width: 50%;
+}
+`
+const BlocTocWrapper = styled.div`
+@media only screen and (max-width: 750px){
+background-color: teal;
+color: black;
+height: 100%;
+width: 200px;
+position: fixed;
+text-align: left;
+z-index: 1;
+top: 0;
+left: 0;
+overflow-x: hidden;
+padding-top: 50px;
+}
+`
+
 const Header = () => {
   const { logged, setLogged} = useContext(appContext);
   const navigate=useNavigate()
   
-  const [click, setClick] = useState(false);
-  const handleClick = () => setClick(!click);
-  const [navbar, setNavbar] = useState(false);
+  const [windowWidth, setWindowWidth] = useState();
+  const [showBlogToc, setShowBlogToc] = useState(true);
 
-  const changeBackground = () => {
-    if (window.scrollY >= 71) {
-      setNavbar(true);
-    } else {
-      setNavbar(false);
-    }
+
+  const toggleBlogToc = () => {
+    setShowBlogToc(!showBlogToc);
   };
+  useEffect(() => {
+    setWindowWidth(window.outerWidth);
 
-  window.addEventListener("scroll", changeBackground);
+    function handleResize() {
+      setWindowWidth(window.outerWidth);
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (windowWidth <= 750) {
+      if (!showBlogToc) {
+        setShowBlogToc(true);
+      }
+    } else {
+      if (showBlogToc) {
+        setShowBlogToc(false);
+      }
+    }
+  }, [windowWidth]);
+
 
 
   function Logging() {
@@ -151,10 +182,33 @@ const Header = () => {
   function Wishlist() {
     navigate("/users/:id/wishlist");
   }
-
-return (
+  
+  return (
     <>
-     <Container>
+    {windowWidth < 750 && (
+      <HamburgerMenu onClick={toggleBlogToc}>
+        <div></div>
+        <div></div>
+        <div></div>
+      </HamburgerMenu>
+    )}
+  {showBlogToc && (
+  <BlocTocWrapper>
+   {logged ? (
+              <MenuItem onClick={Wishlist}>WishList</MenuItem>
+            ) : (
+              <MenuItem onClick={Register}>Register</MenuItem>
+            )}
+            {logged ? (
+              <MenuItem onClick={Logout}>Log Out</MenuItem>
+            ) : (
+              <MenuItem onClick={Logging}>Sign In</MenuItem>
+            )}
+
+  </BlocTocWrapper>
+  )}
+      
+      <Container>
         <Wrapper>
           <Left>
             <Language>EN</Language>
@@ -184,7 +238,8 @@ return (
             </MenuItem>
           </Right>
         </Wrapper>
-      </Container> 
+      </Container>  
+
    </>
  );
 

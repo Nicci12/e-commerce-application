@@ -16,13 +16,21 @@ const Title = styled.h1`
 `;
 
 const Desc = styled.div`
+@media only screen and (max-width: 750px){
+   text-align: center
+ }
+
   font-size: 24px;
   font-weight: 300;
   margin-bottom: 20px;
-  ${mobile({ textAlign: "center" })}
 `;
 
 const InputContainer = styled.div`
+
+@media only screen and (max-width: 750px){
+  width: 80%;
+}
+
   width: 50%;
   height: 40px;
   background-color: white;
