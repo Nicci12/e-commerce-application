@@ -6,7 +6,7 @@ import Announcement from "../components/Announcement";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -222,13 +222,11 @@ const Cart = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(`https://${baseUrl}/users/${user}/cart`);
+        const res = await axios.get(`${baseUrl}/users/${user}/cart`);
         const cartIds = res.data;
         console.log("cartIds", cartIds);
         const requests = cartIds.map(async (id) => {
-          const product = await axios.get(
-            `https://${baseUrl}/products/${id}`
-          );
+          const product = await axios.get(`${baseUrl}/products/${id}`);
           return product.data;
         });
         // const requests = cartIds.map(async (id) => {
@@ -277,10 +275,9 @@ const Cart = () => {
 
   const handleDelete = async (user, prodId) => {
     try {
-      const res = await axios.put(
-        `https://${baseUrl}/users/${user}/removecart`,
-        { prodId }
-      );
+      const res = await axios.put(`${baseUrl}/users/${user}/removecart`, {
+        prodId,
+      });
       const array = [...cartItems];
       const cartArray = array.filter((item) => item._id !== prodId);
       setCartItems(cartArray);
@@ -296,7 +293,7 @@ const Cart = () => {
   return (
     <>
       <Container>
-        <Navbar />
+        <Header />
         <Announcement />
         <Wrapper>
           <Bottom>

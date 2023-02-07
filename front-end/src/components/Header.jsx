@@ -6,6 +6,42 @@ import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
 import appContext from "../context/appContext";
 
+
+const MobileMenu = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  list-style: none;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  z-index: 99;
+  background: steelblue;
+  width: 100%;
+  height:100%;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
+  color: black;
+
+  @media (max-width: 767px) {
+    justify-content: space-around;
+    display: block;
+  }
+  
+  @media (max-width: 575px) {
+    justify-content: space-between;
+    padding: 15px 10px;
+  }
+  
+  @media (max-width: 360px) {
+    font-size: 10px;
+  }
+  
+  @media (max-width: 350px) {
+    padding: 15px 8px;
+  }
+`;
+
 const Container = styled.div`
   height: 60px;
   ${mobile({ height: "50px" })}
@@ -67,13 +103,25 @@ const MenuItem = styled.div`
   margin-left: 25px;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
-const NoMenuItem = styled.div`
-  display: none ${mobile({ fontSize: "12px", marginLeft: "10px" })};
-`;
 
-const Navbar = () => {
+
+const Header = () => {
   const { logged, setLogged} = useContext(appContext);
-  let navigate = useNavigate();
+  const navigate=useNavigate()
+  
+  const [click, setClick] = useState(false);
+  const handleClick = () => setClick(!click);
+  const [navbar, setNavbar] = useState(false);
+
+  const changeBackground = () => {
+    if (window.scrollY >= 71) {
+      setNavbar(true);
+    } else {
+      setNavbar(false);
+    }
+  };
+
+  window.addEventListener("scroll", changeBackground);
 
 
   function Logging() {
@@ -104,9 +152,9 @@ const Navbar = () => {
     navigate("/users/:id/wishlist");
   }
 
-  return (
+return (
     <>
-      <Container>
+     <Container>
         <Wrapper>
           <Left>
             <Language>EN</Language>
@@ -136,9 +184,10 @@ const Navbar = () => {
             </MenuItem>
           </Right>
         </Wrapper>
-      </Container>
-    </>
-  );
+      </Container> 
+   </>
+ );
+
 };
 
-export default Navbar;
+export default Header;

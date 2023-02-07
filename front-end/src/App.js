@@ -14,7 +14,7 @@ import Product from "./page/Product";
 
 
 function App() {
-  const baseUrl = "e-commerce-application-pi.vercel.app";
+  const baseUrl = "http://localhost:8080";
   const [token, setToken] = useState("");
   const [productsList, setProductsList] = useState([])
   const [prodId, setProdId]= useState([])
@@ -47,7 +47,7 @@ function App() {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get(`https://${baseUrl}/products`);
+      const response = await axios.get(`${baseUrl}/products`);
       const data = response.data;
       setProductsList(response.data);
       setProdId(data.map((product) => product._id));

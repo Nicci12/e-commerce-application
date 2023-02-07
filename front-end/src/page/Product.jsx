@@ -2,7 +2,7 @@ import { Add, Remove } from "@mui/icons-material";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import Footer from "../components/Footer";
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 import Newsletter from "../components/Newsletter";
 import React, { useState, useEffect, useContext } from "react";
 import AppContext from "../context/appContext";
@@ -125,10 +125,9 @@ const Product = () => {
   const [prodId, setProdId] = useState(product._id);
   const { id } = useParams();
 
-  
   useEffect(() => {
     async function fetchProductData() {
-      const { data } = await axios.get(`https://${baseUrl}/products/${id}`);
+      const { data } = await axios.get(`${baseUrl}/products/${id}`);
       setProduct(data);
     }
     fetchProductData();
@@ -140,7 +139,7 @@ const Product = () => {
         alert("Item already in cart");
       } else {
         setCart([...cart, product._id]);
-        await axios.post(`https://${baseUrl}/users/${user}/cart`, {
+        await axios.post(`${baseUrl}/users/${user}/cart`, {
           prodId: prodId,
         });
         alert("added to cart");
@@ -152,7 +151,7 @@ const Product = () => {
 
   return (
     <Container>
-      <Navbar />
+      <Header />
       <Announcement />
       <Wrapper>
         <ImgContainer>

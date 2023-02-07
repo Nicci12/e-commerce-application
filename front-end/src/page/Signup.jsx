@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import React, {useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import {
   MDBContainer,
   MDBCard,
@@ -9,11 +9,11 @@ import {
   MDBCol,
   MDBCheckbox,
 } from "mdb-react-ui-kit";
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 import Social from "../components/Socials";
 import AppContext from "../context/appContext";
 import { useNavigate } from "react-router-dom";
-import axios from 'axios'
+import axios from "axios";
 
 const Button = styled.button`
   width: 40%;
@@ -26,7 +26,7 @@ const Button = styled.button`
 `;
 
 const Signup = () => {
-  const {baseUrl} = useContext(AppContext);
+  const { baseUrl } = useContext(AppContext);
   const [userInfo, setUserInfo] = useState({});
   let navigate = useNavigate();
 
@@ -49,7 +49,7 @@ const Signup = () => {
   };
   return (
     <MDBContainer fluid className="my-5">
-      <Navbar />
+       <Header />
       <MDBRow className="g-0 align-items-center">
         <MDBCol col="6">
           <MDBCard
@@ -97,7 +97,7 @@ const Signup = () => {
                 type="password"
                 onChange={handleTextChange}
               />
-               <MDBInput
+              <MDBInput
                 wrapperClass="mb-4"
                 label="Password"
                 id="repassword"
@@ -114,8 +114,7 @@ const Signup = () => {
                 />
               </div>
 
-              <Button onClick={handleSignUp
-              }>Register Here</Button>
+              <Button onClick={handleSignUp}>Register Here</Button>
 
               <div className="text-center">
                 <p>or sign up with:</p>

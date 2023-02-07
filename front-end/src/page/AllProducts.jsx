@@ -1,16 +1,14 @@
-import React, {useEffect, useContext} from 'react';
-import Navbar from '../components/Navbar';
-import GetProducts from '../components/GetProducts';
-
-
+import React, { useEffect, useContext } from "react";
+import Header from "../components/Header";
+import GetProducts from "../components/GetProducts";
 
 function AllProducts() {
-    return (
-        <>
-        <Navbar />
-        <GetProducts />
-        </>
-    );
+  return (
+    <>
+      <Header />
+      <GetProducts />
+    </>
+  );
 }
 
 export default AllProducts;

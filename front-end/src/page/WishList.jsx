@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import AppContext from "../context/appContext";
 import axios from "axios";
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import DeleteIcon from "@mui/icons-material/Delete";
 import styled from "styled-components";
@@ -34,10 +34,10 @@ const EmptyWishlistImage = styled.img`
 `;
 
 const EmptyWishlistHeading = styled.h2`
-font-size: 2rem;
-font-weight: bold;
-margin: 30px 0 10px 0;
-color: #5e5e5e;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 30px 0 10px 0;
+  color: #5e5e5e;
 `;
 
 const Top = styled.div`
@@ -129,7 +129,6 @@ const ProductAmountContainer = styled.div`
   margin-bottom: 20px;
 `;
 
-
 const EmptyWishListSubHeading = styled.h6`
   text-aling:center
   font-weight: bold;
@@ -179,13 +178,12 @@ const SummaryItemText = styled.span``;
 
 const SummaryItemPrice = styled.span``;
 
-
 const Button = styled.button`
-width: 100%;
-padding: 10px;
-background-color: black;
-color: white;
-font-weight: 600;
+  width: 100%;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  font-weight: 600;
 `;
 const EmptyWishlist = () => {
   const navigate = useNavigate();
@@ -194,13 +192,18 @@ const EmptyWishlist = () => {
   }
   return (
     <EmptyWishlistContainer>
-      <EmptyWishlistImage src="https://i.pinimg.com/originals/f6/e4/64/f6e464230662e7fa4c6a4afb92631aed.png" alt="Empty Wishlist" />
+      <EmptyWishlistImage
+        src="https://i.pinimg.com/originals/f6/e4/64/f6e464230662e7fa4c6a4afb92631aed.png"
+        alt="Empty Wishlist"
+      />
       <EmptyWishlistHeading>Your Wishlist Is Empty</EmptyWishlistHeading>
-      <EmptyWishListSubHeading>Add Some Of Your Favourite Items for Later</EmptyWishListSubHeading>
+      <EmptyWishListSubHeading>
+        Add Some Of Your Favourite Items for Later
+      </EmptyWishListSubHeading>
       <TopButton onClick={Return}>Continue Shopping</TopButton>
     </EmptyWishlistContainer>
   );
-}
+};
 function WishList() {
   const { user, prodId, baseUrl } = useContext(AppContext);
   const [wishlist, setWishlist] = useState([]);
@@ -209,14 +212,10 @@ function WishList() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const res = await axios.get(
-          `https://${baseUrl}/users/${user}/wishlist`
-        );
+        const res = await axios.get(`${baseUrl}/users/${user}/wishlist`);
         const wishlistIds = res.data.wishlist;
         const requests = wishlistIds.map(async (id) => {
-          const product = await axios.get(
-            `https://${baseUrl}/products/${id}`
-          );
+          const product = await axios.get(`${baseUrl}/products/${id}`);
           return product.data;
         });
         const products = await Promise.all(requests);
@@ -230,10 +229,9 @@ function WishList() {
 
   const handleDelete = async (user, prodId) => {
     try {
-      const res = await axios.put(
-        `https://${baseUrl}/users/${user}/remove`,
-        { prodId }
-      );
+      const res = await axios.put(`${baseUrl}/users/${user}/remove`, {
+        prodId,
+      });
       const list = [...wishlist];
       const listfilter = list.filter((item) => item._id !== prodId);
       setWishlist(listfilter);
@@ -251,7 +249,7 @@ function WishList() {
         alert("Item already in cart");
       } else {
         setCart([...cart, wishlist[index]]);
-        await axios.post(`https://${baseUrl}/users/${user}/cart`, {
+        await axios.post(`${baseUrl}/users/${user}/cart`, {
           prodId: wishlist[index],
         });
         console.log("added to cart");
@@ -264,43 +262,45 @@ function WishList() {
   return (
     <>
       <Container>
-        <Navbar />
+      <Header />
         <Announcement />
         <Wrapper>
           <Title></Title>
           <Bottom>
             <Info>
-            {wishlist.length === 0 ? <EmptyWishlist /> : 
-              wishlist.map((item, index) => (
-                <Product key={item._id}>
-                  <ProductDetail>
-                    <Image src={item.images} />
-                    <Details>
-                      <ProductName>
-                        <b>Product:</b> {item.item}
-                      </ProductName>
-                      <ProductId>
-                        <b>ID:</b> 93813718293
-                      </ProductId>
-                      <ProductColor color={item.color} />
-                      <ProductSize>
-                        <b>Size:</b> {item.sizes}
-                      </ProductSize>
-                      <ShoppingCartIcon
-                        onClick={() => handleAddToCart(index, item._id)}
-                      />
-                    </Details>
-                  </ProductDetail>
-                  <PriceDetail>
-                    <ProductName>Remove From Wishlist</ProductName>
-                    <ProductAmountContainer
-                      onClick={() => handleDelete(user, item._id)}>
-                      <DeleteIcon />
-                    </ProductAmountContainer>
-                  </PriceDetail>
-                </Product>
-              ))
-}
+              {wishlist.length === 0 ? (
+                <EmptyWishlist />
+              ) : (
+                wishlist.map((item, index) => (
+                  <Product key={item._id}>
+                    <ProductDetail>
+                      <Image src={item.images} />
+                      <Details>
+                        <ProductName>
+                          <b>Product:</b> {item.item}
+                        </ProductName>
+                        <ProductId>
+                          <b>ID:</b> 93813718293
+                        </ProductId>
+                        <ProductColor color={item.color} />
+                        <ProductSize>
+                          <b>Size:</b> {item.sizes}
+                        </ProductSize>
+                        <ShoppingCartIcon
+                          onClick={() => handleAddToCart(index, item._id)}
+                        />
+                      </Details>
+                    </ProductDetail>
+                    <PriceDetail>
+                      <ProductName>Remove From Wishlist</ProductName>
+                      <ProductAmountContainer
+                        onClick={() => handleDelete(user, item._id)}>
+                        <DeleteIcon />
+                      </ProductAmountContainer>
+                    </PriceDetail>
+                  </Product>
+                ))
+              )}
             </Info>
           </Bottom>
         </Wrapper>

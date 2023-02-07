@@ -11,7 +11,7 @@ import {
   MDBInput,
   MDBIcon,
 } from "mdb-react-ui-kit";
-import Navbar from "../components/Navbar";
+import Header from "../components/Header";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AppContext from "../context/appContext";
@@ -74,16 +74,14 @@ const Login = () => {
   const handleLogIn = async (e) => {
     try {
       e.preventDefault();
-      const res = await axios.post(`https://${baseUrl}/users/login`, {
+      const res = await axios.post(`${baseUrl}/users/login`, {
         email,
         password,
       });
-       if(res.data.user){
-        localStorage.setItem(
-          "user",
-          JSON.stringify(res.data.user));
+      if (res.data.user) {
+        localStorage.setItem("user", JSON.stringify(res.data.user));
         setUser(res.data.user);
-       }
+      }
       if (res.data.token) {
         localStorage.setItem("token", JSON.stringify(res.data.token));
         setToken(res.data.token);
@@ -98,7 +96,7 @@ const Login = () => {
   return (
     <>
       <MDBContainer className="my-5">
-        <Navbar />
+      <Header />
         <MDBCard>
           <MDBRow className="g-0">
             <MDBCol md="6">

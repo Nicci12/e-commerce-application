@@ -87,7 +87,7 @@ const GetAllProducts = ({ product }) => {
       if (wishlist.includes(prodId)) {
         alert("Item already in wishlist");
       } else {
-        await axios.post(`https://${baseUrl}/users/${user}/wishlist`, {
+        await axios.post(`${baseUrl}/users/${user}/wishlist`, {
           prodId: prodId,
         });
         alert("added to wishlist");
@@ -103,7 +103,7 @@ const GetAllProducts = ({ product }) => {
       if (cart.includes(prodId)) {
         alert("Item already in cart");
       } else {
-        await axios.post(`https://${baseUrl}/users/${user}/cart`, {
+        await axios.post(`${baseUrl}/users/${user}/cart`, {
           prodId: prodId,
         });
         alert("added to cart");
