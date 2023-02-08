@@ -14,7 +14,9 @@ const Container = styled.div``;
 
 const Wrapper = styled.div`
   padding: 20px;
-  ${mobile({ padding: "10px" })}
+  @media only screen and (max-width: 750px) {
+    padding: 10px;
+  }
 `;
 
 const Title = styled.h1`
@@ -32,13 +34,13 @@ const Top = styled.div`
 
 const TopButton = styled.button`
   padding: 10px;
+  margin-right: 200px;
   font-weight: 600;
   cursor: pointer;
   border: ${(props) => props.type === "filled" && "none"};
   background-color: ${(props) =>
     props.type === "filled" ? "black" : "transparent"};
   color: ${(props) => props.type === "filled" && "white"};
-
   &:hover {
     background-color: teal;
     color: black;
@@ -46,9 +48,12 @@ const TopButton = styled.button`
 `;
 
 const Bottom = styled.div`
+  @media only screen and (max-width: 750px) {
+    display: flex;
+    flex-direction: column;
+  }
   display: flex;
   justify-content: space-between;
-  ${mobile({ flexDirection: "column" })}
 `;
 
 const Info = styled.div`
@@ -56,9 +61,12 @@ const Info = styled.div`
 `;
 
 const Product = styled.div`
+  @media only screen and (max-width: 750px) {
+    display: flex;
+    flex-direction: column;
+  }
   display: flex;
   justify-content: space-between;
-  ${mobile({ flexDirection: "column" })}
 `;
 
 const ProductDetail = styled.div`
@@ -105,15 +113,19 @@ const ProductAmountContainer = styled.div`
 `;
 
 const ProductAmount = styled.div`
+  @media only screen and (max-width: 750px) {
+    margin: 5px 15px;
+  }
   font-size: 24px;
   margin: 5px;
-  ${mobile({ margin: "5px 15px" })}
 `;
 
 const ProductPrice = styled.div`
+  @media only screen and (max-width: 750px) {
+    margin-bottom: 20px;
+  }
   font-size: 30px;
   font-weight: 200;
-  ${mobile({ marginBottom: "20px" })}
 `;
 
 const Hr = styled.hr`
@@ -155,10 +167,15 @@ const Button = styled.button`
 `;
 
 const ButtonContainer = styled.div`
+@media only screen and (max-width: 750px) {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin:30px 50px;
+}
   display: flex;
   justify-content: center;
   align-items: center;
-  flex-direction: column;
 `;
 const EmptyCartContainer = styled.div`
   display: flex;
@@ -346,7 +363,9 @@ const Cart = () => {
           {cartItems.length === 0 ? (
             <></>
           ) : (
+            <ButtonContainer>
             <TopButton onClick={Return}>CONTINUE SHOPPING</TopButton>
+            </ButtonContainer>
           )}
         </Wrapper>
         <Footer />

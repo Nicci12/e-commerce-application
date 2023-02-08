@@ -47,15 +47,15 @@ const Input = styled.input`
 `;
 
 const Center = styled.div`
-@media only screen and (max-width: 750px) {
-  display: flex; 
-   flex-direction: row;
-   justify-content: center;
-   align-items:center;
-}
-   display: flex; 
-   flex-direction: row-reverse;
-   justify-content: center;
+  @media only screen and (max-width: 750px) {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
   flex: 1;
   align-items: center;
   text-align: center;
@@ -63,12 +63,11 @@ const Center = styled.div`
 
 const Logo = styled.h1`
   @media only screen and (max-width: 750px) {
-    font-size: 18px;
+    font-size: 24px;
     margin: 5px 0px 5px 14px;
   }
   font-weight: bold;
   text-align: center;
-  ${mobile({ fontSize: "24px" })}
 `;
 const Right = styled.div`
   @media only screen and (max-width: 750px) {
@@ -82,11 +81,11 @@ const Right = styled.div`
 `;
 
 const Image = styled.img`
-@media only screen and (max-width: 750px) {
-align-item:center;
-width: 40%;
-height: 40%;
-}
+  @media only screen and (max-width: 750px) {
+    align-item: center;
+    width: 12%;
+    height: 12%;
+  }
   width: 11%;
   height: 10%;
 `;
