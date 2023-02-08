@@ -1,4 +1,5 @@
 import { Badge } from "@mui/material";
+import LoyaltyIcon from '@mui/icons-material/Loyalty';
 import { Search, ShoppingCartOutlined } from "@mui/icons-material";
 import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
@@ -88,7 +89,8 @@ const MenuItem = styled.div`
 }
   font-size: 14px;
   cursor: pointer;
-  margin-left: 25px;
+  margin-left: 12px;
+  margin-right:5px;
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
@@ -234,7 +236,10 @@ const Header = () => {
           </Center>
           <Right>
             {logged ? (
+              <>
               <MenuItem onClick={Wishlist}>WishList</MenuItem>
+              <LoyaltyIcon  style={{ color: "teal" ,fontSize: 15 }}/>
+              </>
             ) : (
               <MenuItem onClick={Register}>Register</MenuItem>
             )}
