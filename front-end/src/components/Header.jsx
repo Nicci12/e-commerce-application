@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
 import appContext from "../context/appContext";
-import {Button} from 'react-bootstrap'
+import logos from "../img/logo.png"
 
 const Container = styled.div`
   height: 60px;
@@ -46,16 +46,22 @@ const Input = styled.input`
 `;
 
 const Center = styled.div`
+   display: flex; 
+   flex-direction: row-reverse;
+   justify-content: center;
   flex: 1;
+  align-items: center
   text-align: center;
 `;
 
 const Logo = styled.h1`
-@media only screen and (max-width: 750px){}
+@media only screen and (max-width: 750px){
 font-size: 18px;
 margin: 5px 0px 5px 10px;
 }
 font-weight: bold;
+text-align: center;
+padding-top:4px;
   ${mobile({ fontSize: "24px" })}
 `;
 const Right = styled.div`
@@ -69,6 +75,11 @@ const Right = styled.div`
   ${mobile({ flex: 2, justifyContent: "center" })}
 `;
 
+const Image = styled.img`
+  width: 13%;
+  height:13%;
+
+`;
 const MenuItem = styled.div`
 @media only screen and (max-width: 750px){
   font-size: 18px;
@@ -200,7 +211,7 @@ const Header = () => {
               <MenuItem onClick={Register}>Register</MenuItem>
             )}
             {logged ? (
-              <MenuItem onClick={Logout}>Log Out</MenuItem>
+              <MenuItem onClick={Logout}>Sign Out</MenuItem>
             ) : (
               <MenuItem onClick={Logging}>Sign In</MenuItem>
             )}
@@ -219,6 +230,7 @@ const Header = () => {
           </Left>
           <Center>
             <Logo onClick={Home}>E-SHOP</Logo>
+            <Image src={logos}></Image>
           </Center>
           <Right>
             {logged ? (

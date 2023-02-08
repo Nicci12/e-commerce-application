@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Home from "./page/Home";
 import Login from "./page/Login";
-import { BrowserRouter, Route, Routes, useParams} from "react-router-dom";
+import { BrowserRouter, Route, Routes} from "react-router-dom";
 import "./App.css";
 import Signup from "./page/Signup";
-import Welcome from "./page/Welcome";
 import AllProducts from "./page/AllProducts";
 import Cart from "./page/Cart";
 import AppContext from "./context/appContext";
@@ -68,7 +67,6 @@ useEffect(() => {
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Signup />} />
-            <Route path="/e-shop" element={<Welcome />} />
             <Route path="/products" element={<AllProducts />} />
             <Route path="/products/:id" element={<Product />} />
             <Route path="/users/:id/wishlist" element={<WishList />} />

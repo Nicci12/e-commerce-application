@@ -7,9 +7,12 @@ import {
   MDBInput,
   MDBRow,
   MDBCol,
+  MDBCardImage,
+  MDBIcon,
   MDBCheckbox,
 } from "mdb-react-ui-kit";
 import Header from "../components/Header";
+import logos from "../img/logo.png";
 import Social from "../components/Socials";
 import AppContext from "../context/appContext";
 import { useNavigate } from "react-router-dom";
@@ -23,6 +26,11 @@ const Button = styled.button`
   color: white;
   cursor: pointer;
   margin-bottom: 10px;
+`;
+const Image = styled.img`
+  width: 15%;
+  height: 15%;
+  padding-right: 5%;
 `;
 
 const Signup = () => {
@@ -48,30 +56,43 @@ const Signup = () => {
     }
   };
   return (
-    <MDBContainer fluid className="my-5">
-       <Header />
-      <MDBRow className="g-0 align-items-center">
-        <MDBCol col="6">
-          <MDBCard
-            className="my-5 cascading-right"
-            style={{
-              background: "hsla(0, 0%, 100%, 0.55)",
-              backdropFilter: "blur(30px)",
-            }}>
-            <MDBCardBody className="p-5 shadow-5 text-center">
-              <h2 className="fw-bold mb-5">Sign up now</h2>
+    <>
+      <MDBContainer className="my-5">
+        <Header />
+        <MDBCard>
+          <MDBRow className="g-0 mx-2 mt-5">
+            <MDBCol md="6">
+              <MDBCardImage
+                src="https://img.freepik.com/premium-photo/man-surprised-face-pointing-shopping-bags-shopping-concept-guy-holds-bunch-colorful-shopping-bags-man-shopping-black-friday-guy-bought-lot-items-with-discount_474717-14798.jpg?w=2000"
+                alt="register form"
+                className="rounded-start w-100 h-90"
+              />
+            </MDBCol>
 
-              <MDBRow>
-                <MDBCol col="6">
-                  <MDBInput
-                    wrapperClass="mb-4"
-                    label="name"
-                    id="form1"
-                    type="text"
-                    onChange={handleTextChange}
+            <MDBCol md="6">
+              <MDBCardBody className="d-flex flex-column">
+                <div className="d-flex flex-row mt-2">
+                  <MDBIcon
+                    fas
+                    icon="cubes fa-3x me-3"
+                    style={{ color: "#ff6219" }}
                   />
-                </MDBCol>
+                  <Image src={logos}></Image>
+                </div>
 
+                <h5
+                  className="fw-normal my-4 pb-3"
+                  style={{ letterSpacing: "1px" }}>
+                  Sign into your account
+                </h5>
+
+                <MDBInput
+                  wrapperClass="mb-4"
+                  label="Name"
+                  id="form1"
+                  type="text"
+                  onChange={handleTextChange}
+                />
                 <MDBCol col="6">
                   <MDBInput
                     wrapperClass="mb-4"
@@ -81,60 +102,58 @@ const Signup = () => {
                     onChange={handleTextChange}
                   />
                 </MDBCol>
-              </MDBRow>
 
-              <MDBInput
-                wrapperClass="mb-4"
-                label="Email"
-                id="email"
-                type="email"
-                onChange={handleTextChange}
-              />
-              <MDBInput
-                wrapperClass="mb-4"
-                label="Password"
-                id="password"
-                type="password"
-                onChange={handleTextChange}
-              />
-              <MDBInput
-                wrapperClass="mb-4"
-                label="Password"
-                id="repassword"
-                type="password"
-                onChange={handleTextChange}
-              />
-
-              <div className="d-flex justify-content-center mb-4">
-                <MDBCheckbox
-                  name="flexCheck"
-                  value=""
-                  id="flexCheckDefault"
-                  label="Subscribe to our newsletter"
+                <MDBInput
+                  wrapperClass="mb-4"
+                  label="Email"
+                  id="email"
+                  type="email"
+                  onChange={handleTextChange}
                 />
-              </div>
+                <MDBInput
+                  wrapperClass="mb-4"
+                  label="Password"
+                  id="password"
+                  type="password"
+                  onChange={handleTextChange}
+                />
+                <MDBInput
+                  wrapperClass="mb-4"
+                  label="Password"
+                  id="repassword"
+                  type="password"
+                  onChange={handleTextChange}
+                />
+                <Button onClick={handleSignUp}>Register Here</Button>
 
-              <Button onClick={handleSignUp}>Register Here</Button>
+                <div className="text-center">
+                  <p>or sign up with:</p>
 
-              <div className="text-center">
-                <p>or sign up with:</p>
+                  <Social />
+                </div>
+                <div className="d-flex justify-content-center mb-4">
+                  <MDBCheckbox
+                    name="flexCheck"
+                    value=""
+                    id="flexCheckDefault"
+                    label="Subscribe to our newsletter"
+                  />
+                </div>
 
-                <Social />
-              </div>
-            </MDBCardBody>
-          </MDBCard>
-        </MDBCol>
-
-        <MDBCol col="6">
-          <img
-            src="https://www.bloomadvisors.com/wp-content/uploads/2020/11/shopping.jpg"
-            class="w-100 rounded-4 shadow-4"
-            alt=""
-            fluid
-          />
-        </MDBCol>
-      </MDBRow>
-    </MDBContainer>
+                <div className="d-flex flex-row justify-content-start">
+                  <a href="#!" className="small text-muted me-1">
+                    Terms of use.
+                  </a>
+                  <a href="#!" className="small text-muted">
+                    Privacy policy
+                  </a>
+                </div>
+              </MDBCardBody>
+            </MDBCol>
+          </MDBRow>
+        </MDBCard>
+      </MDBContainer>
+    </>
   );
 };
 

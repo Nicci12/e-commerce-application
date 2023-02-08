@@ -15,7 +15,7 @@ import Header from "../components/Header";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import AppContext from "../context/appContext";
-
+import logos from "../img/logo.png"
 const Container = styled.div`
   width: 100vw;
   height: 100vh;
@@ -29,6 +29,13 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+`;
+
+const Image = styled.img`
+  width: 15%;
+  height:15%;
+  padding-right: 5%
+
 `;
 
 const Wrapper = styled.div`
@@ -87,7 +94,7 @@ const Login = () => {
         setToken(res.data.token);
       }
       setLogged(true);
-      navigate("/e-shop");
+      navigate("/");
     } catch (err) {
       console.log(err);
     }
@@ -103,7 +110,7 @@ const Login = () => {
               <MDBCardImage
                 src="https://img.freepik.com/free-photo/portrait-young-happy-girl-holding-shopping-bags_171337-2608.jpg?w=2000"
                 alt="login form"
-                className="rounded-start w-100"
+                className="rounded-start w-100 h-90"
               />
             </MDBCol>
 
@@ -115,7 +122,7 @@ const Login = () => {
                     icon="cubes fa-3x me-3"
                     style={{ color: "#ff6219" }}
                   />
-                  <span className="h1 fw-bold mb-0">Logo</span>
+                 <Image src={logos}></Image>
                 </div>
 
                 <h5

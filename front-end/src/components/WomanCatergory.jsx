@@ -1,7 +1,13 @@
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
+
 const Container = styled.div`
+
+@media only screen and (max-width: 750px){
+  height:25vh;
+  margin-bottom: 60px;
+ }
   flex: 1;
   margin: 3px;
   height: 70vh;

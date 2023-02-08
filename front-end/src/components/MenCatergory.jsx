@@ -4,6 +4,10 @@ import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
+@media only screen and (max-width: 750px){
+  height:25vh;
+  margin-bottom: 60px;
+ }
   flex: 1;
   margin: 3px;
   height: 70vh;
@@ -11,14 +15,22 @@ const Container = styled.div`
 `;
 
 const Image = styled.img`
+@media only screen and (max-width: 750px){
+ height:35vh;
+ object-fit: cover;
+
+}
   width: 100%;
   height: 100%;
   object-fit: cover;
-  ${mobile({ height: "20vh" })}
 `;
 
 const Info = styled.div`
-  position: absolute;
+@media only screen and (max-width: 750px){
+   position: absolute;
+  font-size: 10px;
+ }
+ position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -30,10 +42,14 @@ const Info = styled.div`
 `;
 
 const Title = styled.h1`
-  color: white;
-  margin-bottom: 20px;
-`;
+@media only screen and (max-width: 750px){
+  font-size:15px;
+  align-text: center;
 
+ }
+    color:white;
+    margin-bottom: 20px;
+`;
 const Button = styled.button`
   border: none;
   padding: 10px;
