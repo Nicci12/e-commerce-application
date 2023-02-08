@@ -18,20 +18,6 @@ const Wrapper = styled.div`
     padding: 10px;
   }
 `;
-
-const Title = styled.h1`
-  font-weight: 300;
-  text-align: center;
-  padding-bottom: 20px;
-`;
-
-const Top = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
-`;
-
 const TopButton = styled.button`
   padding: 10px;
   margin-right: 200px;
@@ -139,7 +125,7 @@ const Summary = styled.div`
   border: 0.5px solid lightgray;
   border-radius: 10px;
   padding: 20px;
-  height: 72vh;
+  height: 66vh;
 `;
 
 const SummaryTitle = styled.h1`
