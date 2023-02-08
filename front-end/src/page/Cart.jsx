@@ -45,15 +45,6 @@ const TopButton = styled.button`
   }
 `;
 
-const TopTexts = styled.div`
-  ${mobile({ display: "none" })}
-`;
-const TopText = styled.span`
-  text-decoration: underline;
-  cursor: pointer;
-  margin: 0px 10px;
-`;
-
 const Bottom = styled.div`
   display: flex;
   justify-content: space-between;

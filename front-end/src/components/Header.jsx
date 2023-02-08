@@ -1,12 +1,12 @@
 import { Badge } from "@mui/material";
-import LoyaltyIcon from '@mui/icons-material/Loyalty';
+import LoyaltyIcon from "@mui/icons-material/Loyalty";
 import { Search, ShoppingCartOutlined } from "@mui/icons-material";
 import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
 import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
 import appContext from "../context/appContext";
-import logos from "../img/logo.png"
+import logos from "../img/logo.png";
 
 const Container = styled.div`
   height: 60px;
@@ -17,7 +17,7 @@ const Wrapper = styled.div`
   padding: 10px 20px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   ${mobile({ padding: "10px 0px" })}
 `;
 
@@ -47,28 +47,33 @@ const Input = styled.input`
 `;
 
 const Center = styled.div`
+@media only screen and (max-width: 750px) {
+  display: flex; 
+   flex-direction: row;
+   justify-content: center;
+   align-items:center;
+}
    display: flex; 
    flex-direction: row-reverse;
    justify-content: center;
   flex: 1;
-  align-items: center
+  align-items: center;
   text-align: center;
 `;
 
 const Logo = styled.h1`
-@media only screen and (max-width: 750px){
-font-size: 18px;
-margin: 5px 0px 5px 10px;
-}
-font-weight: bold;
-text-align: center;
-padding-top:4px;
+  @media only screen and (max-width: 750px) {
+    font-size: 18px;
+    margin: 5px 0px 5px 14px;
+  }
+  font-weight: bold;
+  text-align: center;
   ${mobile({ fontSize: "24px" })}
 `;
 const Right = styled.div`
-@media only screen and (max-width: 750px){
-  display:none
-}
+  @media only screen and (max-width: 750px) {
+    display: none;
+  }
   flex: 1;
   display: flex;
   align-items: center;
@@ -77,9 +82,13 @@ const Right = styled.div`
 `;
 
 const Image = styled.img`
-  width: 13%;
-  height:13%;
-
+@media only screen and (max-width: 750px) {
+align-item:center;
+width: 40%;
+height: 40%;
+}
+  width: 11%;
+  height: 10%;
 `;
 const MenuItem = styled.div`
 @media only screen and (max-width: 750px){
@@ -94,51 +103,49 @@ const MenuItem = styled.div`
   ${mobile({ fontSize: "12px", marginLeft: "10px" })}
 `;
 
-
 const HamburgerMenu = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-justify-content: center;
-position: fixed;
-bottom: 10px;
-z-index: 100;
-background-color: white;
-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-border-radius: 50%;
-cursor: pointer;
-height: 50px;
-width: 50px;
-> div {
-  border: 2px solid black;
-  border-radius: 10px;
-  margin: 3px;
-  width: 50%;
-}
-`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  bottom: 10px;
+  z-index: 100;
+  background-color: white;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  border-radius: 50%;
+  cursor: pointer;
+  height: 50px;
+  width: 50px;
+  > div {
+    border: 2px solid black;
+    border-radius: 10px;
+    margin: 3px;
+    width: 50%;
+  }
+`;
 const BlocTocWrapper = styled.div`
-@media only screen and (max-width: 750px){
-background-color: teal;
-color: black;
-height: 100%;
-width: 200px;
-position: fixed;
-text-align: left;
-z-index: 1;
-top: 0;
-left: 0;
-overflow-x: hidden;
-padding-top: 50px;
-}
-`
+  @media only screen and (max-width: 750px) {
+    background-color: teal;
+    color: black;
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    text-align: left;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    overflow-x: hidden;
+    padding-top: 50px;
+  }
+`;
 
 const Header = () => {
-  const { logged, setLogged} = useContext(appContext);
-  const navigate=useNavigate()
-  
+  const { logged, setLogged } = useContext(appContext);
+  const navigate = useNavigate();
+
   const [windowWidth, setWindowWidth] = useState();
   const [showBlogToc, setShowBlogToc] = useState(true);
-
 
   const toggleBlogToc = () => {
     setShowBlogToc(!showBlogToc);
@@ -165,8 +172,6 @@ const Header = () => {
       }
     }
   }, [windowWidth]);
-
-
 
   function Logging() {
     setLogged(true);
@@ -195,32 +200,31 @@ const Header = () => {
   function Wishlist() {
     navigate("/users/:id/wishlist");
   }
-  
+
   return (
     <>
-    {windowWidth < 750 && (
-      <HamburgerMenu onClick={toggleBlogToc}>
-        <div></div>
-        <div></div>
-        <div></div>
-      </HamburgerMenu>
-    )}
-  {showBlogToc && (
-  <BlocTocWrapper>
-   {logged ? (
-              <MenuItem onClick={Wishlist}>WishList</MenuItem>
-            ) : (
-              <MenuItem onClick={Register}>Register</MenuItem>
-            )}
-            {logged ? (
-              <MenuItem onClick={Logout}>Sign Out</MenuItem>
-            ) : (
-              <MenuItem onClick={Logging}>Sign In</MenuItem>
-            )}
+      {windowWidth < 750 && (
+        <HamburgerMenu onClick={toggleBlogToc}>
+          <div></div>
+          <div></div>
+          <div></div>
+        </HamburgerMenu>
+      )}
+      {showBlogToc && (
+        <BlocTocWrapper>
+          {logged ? (
+            <MenuItem onClick={Wishlist}>WishList</MenuItem>
+          ) : (
+            <MenuItem onClick={Register}>Register</MenuItem>
+          )}
+          {logged ? (
+            <MenuItem onClick={Logout}>Sign Out</MenuItem>
+          ) : (
+            <MenuItem onClick={Logging}>Sign In</MenuItem>
+          )}
+        </BlocTocWrapper>
+      )}
 
-  </BlocTocWrapper>
-  )}
-      
       <Container>
         <Wrapper>
           <Left>
@@ -237,8 +241,8 @@ const Header = () => {
           <Right>
             {logged ? (
               <>
-              <MenuItem onClick={Wishlist}>WishList</MenuItem>
-              <LoyaltyIcon  style={{ color: "teal" ,fontSize: 15 }}/>
+                <MenuItem onClick={Wishlist}>WishList</MenuItem>
+                <LoyaltyIcon style={{ color: "teal", fontSize: 15 }} />
               </>
             ) : (
               <MenuItem onClick={Register}>Register</MenuItem>
@@ -255,11 +259,9 @@ const Header = () => {
             </MenuItem>
           </Right>
         </Wrapper>
-      </Container>  
-
-   </>
- );
-
+      </Container>
+    </>
+  );
 };
 
 export default Header;
