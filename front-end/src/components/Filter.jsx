@@ -1,82 +1,87 @@
-import React, {useState} from 'react';
-import axios from "axios";
+import React, { useContext, useState } from "react";
+
 import styled from "styled-components";
+import AppContext from "../context/appContext";
+import { Offcanvas, OffcanvasHeader, OffcanvasBody } from "reactstrap";
 
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+const Button = styled.button`
+  width: 20%;
+  border: none;
+  padding: 10px 10px;
   background-color: teal;
-  padding: 20px;
-`;
-
-const FilterContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 80%;
-  margin-bottom: 20px;
+  color: white;
+  cursor: pointer;
+  margin: 20px 10px 0 24px;
 `;
 
 const FilterButton = styled.button`
-  background-color: white;
-  color: teal;
-  border: 2px solid teal;
-  padding: 10px 20px;
-  border-radius: 5px;
+  width: 100px
+  border: none;
+  padding: 10px 10px;
+  background-color: teal;
+  color: white;
   cursor: pointer;
+  margin: 20px 10px 0 24px;
 `;
 
-const ProductList = styled.ul`
-  list-style: none;
-  width: 80%;
-`;
-
-const ProductItem = styled.li`
+const Conatiner = styled.div`
   display: flex;
-  justify-content: space-between;
-  padding: 10px;
-  border-bottom: 1px solid teal;
+  flex-direction: column;
 `;
 
-function Filter(props) {
-    const [item, setItem] = useState("");
-    const [color, setColor] = useState("");
-    const [gender, setGender] = useState("");
-    const [price, setPrice] = useState("");
-    const [size, setSize] = useState("");
-    const [searchProduct, setSearchProduct] = useState([]);
-  
-    function handleSearch(e) {
-      e.preventDefault();
-  
-      axios
-        .get(
-          `${baseUrl}/products/search?item=${item}&color=${color}&gender=${gender}&price=${price}&size=${size}`
-        )
-        .then((response) => {
-          setSearchProduct(response.data);
-          console.log("response in nav", response.data)
-        })
-        .catch((error) => {
-          console.log("Error getting data: " + error);
-        });
-    }
-    return (
-        <Container onSubmit={handleSearch}>
-        <FilterContainer>
-        <FilterButton onClick={() => setGender('male')}>Male</FilterButton>
-        <FilterButton onClick={() => setGender('female')}>Female</FilterButton>
-        <FilterButton onClick={() => setColor('red')}>Red</FilterButton>
-        <FilterButton onClick={() => setColor('blue')}>Blue</FilterButton>
-        <FilterButton onClick={() => setPrice('low')}>Low</FilterButton>
-        <FilterButton onClick={() => setPrice('high')}>High</FilterButton>
-        <FilterButton onClick={() => setSize('small')}>Small</FilterButton>
-        <FilterButton onClick={() => setSize('large')}>Large</FilterButton>
-        <FilterButton onClick={() => setItem('shirt')}>Shirt</FilterButton>
-        <FilterButton onClick={() => setItem('pant')}>Pant</FilterButton>
-      </FilterContainer>
-      </Container>
-    );
+function Filter() {
+  const { handleCategorySelection } = useContext(AppContext);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const toggle = () => setIsOpen(!isOpen);
+  return (
+    <>
+      <div>
+        <div>
+          <Button onClick={toggle}>Find By</Button>
+          <Offcanvas placement="left" isOpen={isOpen} toggle={toggle}>
+            <OffcanvasHeader toggle={toggle}>Categories:</OffcanvasHeader>
+            <OffcanvasBody>
+              <strong>Find By:</strong>
+              <Conatiner>
+                <FilterButton onClick={() => handleCategorySelection("all")}>
+                  All
+                </FilterButton>
+                <FilterButton
+                  onClick={() => handleCategorySelection("item", "dress")}>
+                  Dress
+                </FilterButton>
+                <FilterButton
+                  onClick={() => handleCategorySelection("item", "jeans")}>
+                  Jeans
+                </FilterButton>
+                <FilterButton
+                  onClick={() => handleCategorySelection("color", "pink")}>
+                  Pink
+                </FilterButton>
+                <FilterButton
+                  onClick={() => handleCategorySelection("color", "green")}>
+                  Green
+                </FilterButton>
+                <FilterButton
+                  onClick={() => handleCategorySelection("gender", "male")}>
+                  Male
+                </FilterButton>
+                <FilterButton
+                  onClick={() => handleCategorySelection("gender", "female")}>
+                  Female
+                </FilterButton>
+                <FilterButton
+                  onClick={() => handleCategorySelection("gender", "both")}>
+                  Both
+                </FilterButton>
+              </Conatiner>
+            </OffcanvasBody>
+          </Offcanvas>
+        </div>
+      </div>
+    </>
+  );
 }
 
 export default Filter;
