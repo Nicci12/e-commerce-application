@@ -7,7 +7,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
-import { mobile } from "../responsive";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 const Container = styled.div``;

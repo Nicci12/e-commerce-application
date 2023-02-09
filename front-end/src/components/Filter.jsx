@@ -1,7 +1,8 @@
 import React, { useContext, useState } from "react";
-
 import styled from "styled-components";
 import AppContext from "../context/appContext";
+import Dropdown from "react-bootstrap/Dropdown";
+import DropdownButton from "react-bootstrap/DropdownButton";
 import { Offcanvas, OffcanvasHeader, OffcanvasBody } from "reactstrap";
 
 const Button = styled.button`
@@ -15,7 +16,6 @@ const Button = styled.button`
 `;
 
 const FilterButton = styled.button`
-  width: 100px
   border: none;
   padding: 10px 10px;
   background-color: teal;
@@ -27,6 +27,7 @@ const FilterButton = styled.button`
 const Conatiner = styled.div`
   display: flex;
   flex-direction: column;
+  width: 350px;
 `;
 
 function Filter() {
@@ -47,34 +48,47 @@ function Filter() {
                 <FilterButton onClick={() => handleCategorySelection("all")}>
                   All
                 </FilterButton>
-                <FilterButton
-                  onClick={() => handleCategorySelection("item", "dress")}>
-                  Dress
-                </FilterButton>
-                <FilterButton
-                  onClick={() => handleCategorySelection("item", "jeans")}>
-                  Jeans
-                </FilterButton>
-                <FilterButton
-                  onClick={() => handleCategorySelection("color", "pink")}>
-                  Pink
-                </FilterButton>
-                <FilterButton
-                  onClick={() => handleCategorySelection("color", "green")}>
-                  Green
-                </FilterButton>
-                <FilterButton
-                  onClick={() => handleCategorySelection("gender", "male")}>
-                  Male
-                </FilterButton>
-                <FilterButton
-                  onClick={() => handleCategorySelection("gender", "female")}>
-                  Female
-                </FilterButton>
-                <FilterButton
-                  onClick={() => handleCategorySelection("gender", "both")}>
-                  Both
-                </FilterButton>
+                <DropdownButton id="dropdown-item-button" title="Items">
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() => handleCategorySelection("item", "dress")}>
+                    Dress
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() => handleCategorySelection("item", "jeans")}>
+                    Jeans
+                  </Dropdown.Item>
+                </DropdownButton>
+                <DropdownButton id="dropdown-item-button" title="Colors">
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() => handleCategorySelection("color", "pink")}>
+                    Pink
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() => handleCategorySelection("color", "green")}>
+                    Green
+                  </Dropdown.Item>
+                </DropdownButton>
+                <DropdownButton id="dropdown-item-button" title="Colors">
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() => handleCategorySelection("gender", "male")}>
+                    Male
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() => handleCategorySelection("gender", "female")}>
+                    Female
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() => handleCategorySelection("gender", "both")}>
+                    Both
+                  </Dropdown.Item>
+                </DropdownButton>
               </Conatiner>
             </OffcanvasBody>
           </Offcanvas>

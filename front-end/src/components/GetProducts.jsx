@@ -3,10 +3,6 @@ import styled from "styled-components";
 import GetAllProducts from "./GetAllProducts";
 import AppContext from "../context/appContext";
 import Filter from "./Filter";
-import axios from "axios";
-import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
-import { categories } from "../utils/data";
 
 const Container = styled.div`
   padding: 20px;

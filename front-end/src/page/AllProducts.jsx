@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React from "react";
 import Header from "../components/Header";
 import GetProducts from "../components/GetProducts";
 
