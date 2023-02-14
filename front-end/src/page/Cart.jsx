@@ -152,12 +152,12 @@ const Button = styled.button`
 `;
 
 const ButtonContainer = styled.div`
-@media only screen and (max-width: 750px) {
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin:30px 50px;
-}
+  @media only screen and (max-width: 750px) {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin: 30px 50px;
+  }
   display: flex;
   justify-content: center;
   align-items: center;
@@ -206,7 +206,7 @@ const EmptyCartlist = () => {
 };
 
 const Cart = () => {
-  const { user, baseUrl } = useContext(AppContext);
+  const { user, baseUrl, cartCount, setCartCount } = useContext(AppContext);
   const navigate = useNavigate();
   const [cartItems, setCartItems] = useState([]);
   const [totalPrice, setTotalPrice] = useState(0);
@@ -222,13 +222,6 @@ const Cart = () => {
           const product = await axios.get(`${baseUrl}/products/${id}`);
           return product.data;
         });
-        // const requests = cartIds.map(async (id) => {
-        //   const productId = id.product;
-        //   const product = await axios.get(
-        //     `http://localhost:8080/products/cart/${productId}`
-        //   );
-        //   return product.data;
-        // });
         const items = await Promise.all(requests);
         setCartItems(items.map((item) => ({ ...item, stock: 1 })));
       } catch (error) {
@@ -274,7 +267,9 @@ const Cart = () => {
       const array = [...cartItems];
       const cartArray = array.filter((item) => item._id !== prodId);
       setCartItems(cartArray);
-      console.log("cart delete", cartItems);
+      if (cartCount > 0) {
+        setCartCount(cartCount - 1);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -319,7 +314,7 @@ const Cart = () => {
                         <ProductAmount>{item.stock}</ProductAmount>
                         <Remove onClick={() => handleRemove(index)} />
                       </ProductAmountContainer>
-                      <ProductPrice>${item.price}.00</ProductPrice>
+                      <ProductPrice>${item.price}</ProductPrice>
                     </PriceDetail>
                   </Product>
                 ))
@@ -349,7 +344,7 @@ const Cart = () => {
             <></>
           ) : (
             <ButtonContainer>
-            <TopButton onClick={Return}>CONTINUE SHOPPING</TopButton>
+              <TopButton onClick={Return}>CONTINUE SHOPPING</TopButton>
             </ButtonContainer>
           )}
         </Wrapper>

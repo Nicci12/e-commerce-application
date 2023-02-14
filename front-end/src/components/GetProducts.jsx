@@ -3,6 +3,7 @@ import styled from "styled-components";
 import GetAllProducts from "./GetAllProducts";
 import AppContext from "../context/appContext";
 import Filter from "./Filter";
+import SortBy from '../page/SortBy'
 
 const Container = styled.div`
   padding: 20px;
@@ -17,6 +18,7 @@ const GetProducts = () => {
   return (
     <div>
       <Filter />
+      <SortBy />
       <Container>
         {loading ? (
           <h1>Loading</h1>

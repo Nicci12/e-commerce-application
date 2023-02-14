@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Home from "./page/Home";
 import Login from "./page/Login";
-import { BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import Signup from "./page/Signup";
 import AllProducts from "./page/AllProducts";
@@ -11,18 +11,17 @@ import axios from "axios";
 import WishList from "./page/WishList";
 import Product from "./page/Product";
 
-
 function App() {
   const baseUrl = "http://localhost:8080";
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [loading, setLoading] = useState(false);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [showFilter, setShowFilter] = useState(false)
+  const [showFilter, setShowFilter] = useState(false);
   const [token, setToken] = useState("");
-  const [productsList, setProductsList] = useState([])
-  const [prodId, setProdId]= useState([])
-  const [user, setUser] = useState([])
-  const [logged, setLogged]= useState(false)
+  const [productsList, setProductsList] = useState([]);
+  const [prodId, setProdId] = useState([]);
+  const [user, setUser] = useState([]);
+  const [logged, setLogged] = useState(false);
   const [item, setItem] = useState("");
   const [color, setColor] = useState("");
   const [gender, setGender] = useState("");
@@ -34,20 +33,17 @@ function App() {
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
     const user = JSON.parse(localStorage.getItem("user"));
-    
-    
+
     if (user) {
       setUser(user);
-      setLogged(true)
+      setLogged(true);
     }
 
     if (token) {
       setToken(token);
-      setLogged(true)
+      setLogged(true);
     }
   }, []);
-
-  
 
   const fetchProducts = async () => {
     try {
@@ -58,84 +54,118 @@ function App() {
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-useEffect(() => {
+  useEffect(() => {
     fetchProducts();
-}, []);
+  }, []);
 
-const onSearch = async () => {
-  setLoading(true);
-  try {
-    const response = await axios.get(`${baseUrl}/products/filter?item=${item}&color=${color}&gender=${gender}&price=${price}&sizes=${sizes}`);
-    const data = response.data;
-    setProductsList(data);
-    setFilteredProducts(data);
-    setLoading(false);
-  } catch (error) {
-    console.error(error);
-    setLoading(false);
-  }
-};
-
-useEffect(() => {
-  setShowFilter(true);
-  onSearch();
-}, []);
-
-const handleCategorySelection = (category, value) => {
-  setSelectedCategory(category);
-  if (category === "all") {
-    setFilteredProducts(productsList);
-  } 
-  else if( category === "item" && value === "dress"){
-    setFilteredProducts(
-    productsList.filter((product) => product.item === "dress")
-    );
-  }
-  else if( category === "item" && value === "Jeans"){
-    setFilteredProducts(
-    productsList.filter((product) => product.item === "Jeans")
-    );
-  }
-  else if( category === "sizes" && value === "S"){
-    setFilteredProducts(
-    productsList.filter((product) => product.sizes === "S")
-    );
-  }
-  else if( category === "color" && value === "pink"){
-    setFilteredProducts(
-    productsList.filter((product) => product.color === "pink")
-    );
-  }
-  else if( category === "color" && value === "green"){
-    setFilteredProducts(
-    productsList.filter((product) => product.color === "green")
-    );
-  }
-  else if( category === "gender" && value === "female"){
-    setFilteredProducts(
-    productsList.filter((product) => product.gender === "female")
-    );
-    }
-    else if( category === "gender" && value === "male"){
-      setFilteredProducts(
-      productsList.filter((product) => product.gender === "male")
+  const onSearch = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(
+        `${baseUrl}/products/filter?item=${item}&color=${color}&gender=${gender}&price=${price}&sizes=${sizes}`
       );
+      const data = response.data;
+      setProductsList(data);
+      setFilteredProducts(data);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
+      setLoading(false);
     }
-    else if( category === "gender" && value === "both"){
+  };
+
+  useEffect(() => {
+    setShowFilter(true);
+    onSearch();
+  }, []);
+
+  const handleCategorySelection = (category, value) => {
+    setSelectedCategory(category);
+    if (category === "all") {
+      setFilteredProducts(productsList);
+    } else if (category === "item" && value === "dress") {
       setFilteredProducts(
-      productsList.filter((product) => product.gender === "both")
+        productsList.filter((product) => product.item === "dress")
       );
+    } else if (category === "item" && value === "Jeans") {
+      setFilteredProducts(
+        productsList.filter((product) => product.item === "Jeans")
+      );
+    } else if (category === "sizes" && value === "S") {
+      setFilteredProducts(
+        productsList.filter((product) => product.sizes === "S")
+      );
+    } else if (category === "color" && value === "pink") {
+      setFilteredProducts(
+        productsList.filter((product) => product.color === "pink")
+      );
+    } else if (category === "color" && value === "green") {
+      setFilteredProducts(
+        productsList.filter((product) => product.color === "green")
+      );
+    } else if (category === "gender" && value === "female") {
+      setFilteredProducts(
+        productsList.filter((product) => product.gender === "female")
+      );
+    } else if (category === "gender" && value === "male") {
+      setFilteredProducts(
+        productsList.filter((product) => product.gender === "male")
+      );
+    } else if (category === "gender" && value === "both") {
+      setFilteredProducts(
+        productsList.filter((product) => product.gender === "both")
+      );
+    } else if (category === "price") {
+      if (value === "asc") {
+        setFilteredProducts(
+          productsList.sort((a, b) => parseFloat(a.price) - parseFloat(b.price))
+        );
+      } if (value === "desc") {
+        setFilteredProducts(
+          productsList.sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
+        );
+      }
+    } else {
+      setFilteredProducts(productsList);
     }
-  else {
-    setFilteredProducts(productsList);
-  }
-}
+  };
 
   return (
     <>
-      <AppContext.Provider value={{ baseUrl, handleCategorySelection, filteredProducts, token, setProductsList, setToken, logged, setLogged, productsList, setProductsList, user, setUser, prodId, setProdId, fetchProducts,  color,setColor, gender, setGender, price, setPrice, sizes, setSizes,item, setItem, setFilter, filter, cartCount, setCartCount}}>
+      <AppContext.Provider
+        value={{
+          baseUrl,
+          handleCategorySelection,
+          filteredProducts,
+          token,
+          setProductsList,
+          setToken,
+          logged,
+          setLogged,
+          productsList,
+          setProductsList,
+          user,
+          setUser,
+          prodId,
+          setProdId,
+          fetchProducts,
+          color,
+          setColor,
+          gender,
+          setGender,
+          price,
+          setPrice,
+          sizes,
+          setSizes,
+          item,
+          setItem,
+          setFilter,
+          filter,
+          cartCount,
+          setCartCount,
+        }}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />

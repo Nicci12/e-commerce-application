@@ -94,6 +94,18 @@ function Filter() {
                     Large
                   </Dropdown.Item>
                 </StyledDropdownButton>
+                <StyledDropdownButton id="dropdown-item-button" title="Price">
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() => handleCategorySelection("price", "asc")}>
+                    Lowest to Highest
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() => handleCategorySelection("price", "desc")}>
+                    Highest to Lowest
+                  </Dropdown.Item>
+                </StyledDropdownButton>
                 <StyledDropdownButton id="dropdown-item-button" title="Colors">
                   <Dropdown.Item
                     as="button"

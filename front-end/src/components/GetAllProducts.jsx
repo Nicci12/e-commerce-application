@@ -9,8 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import AppContext from "../context/appContext";
-import styled from "styled-components"
-
+import styled from "styled-components";
 
 const Info = styled.div`
   opacity: 0;
@@ -52,9 +51,9 @@ const Circle = styled.div`
 `;
 
 const Image = styled.img`
-width: 200px;
-height: 200px;
- border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
   z-index: 2;
 `;
 
@@ -75,12 +74,12 @@ const Icon = styled.div`
 `;
 
 const GetAllProducts = ({ product }) => {
-  const { user, baseUrl, cartCount, setCartCount} = useContext(AppContext);
+  const { user, baseUrl, cartCount, setCartCount } = useContext(AppContext);
   const [prodId, setProdId] = useState(product._id);
   const [wishlist, setWishlist] = useState([]);
   const [cart, setCart] = useState([]);
   const navigate = useNavigate();
-  
+
   function navigateToProduct(product) {
     navigate(`/products/${product._id}`);
   }
@@ -121,24 +120,24 @@ const GetAllProducts = ({ product }) => {
   return (
     <>
       <ToastContainer />
-    <Container>
-      <Circle />
-      <Image src={product.images} />
-      <Info>
-        <Icon onClick={handleAddToCart}>
-          <ShoppingCartOutlined />
-        </Icon>
-        <Icon
-          onClick={() => {
-            navigateToProduct(product);
-          }}>
-          <SearchOutlined />
-        </Icon>
-        <Icon onClick={handleAddToWishlist}>
-          <FavoriteBorderOutlined />
-        </Icon>
-      </Info>
-    </Container>
+      <Container>
+        <Circle />
+        <Image src={product.images} />
+        <Info>
+          <Icon onClick={handleAddToCart}>
+            <ShoppingCartOutlined />
+          </Icon>
+          <Icon
+            onClick={() => {
+              navigateToProduct(product);
+            }}>
+            <SearchOutlined />
+          </Icon>
+          <Icon onClick={handleAddToWishlist}>
+            <FavoriteBorderOutlined />
+          </Icon>
+        </Info>
+      </Container>
     </>
   );
 };
