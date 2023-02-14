@@ -5,6 +5,8 @@ import {
 } from "@mui/icons-material";
 import React, { useContext, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import AppContext from "../context/appContext";
 import styled from "styled-components"
@@ -50,7 +52,9 @@ const Circle = styled.div`
 `;
 
 const Image = styled.img`
-  height: 75%;
+width: 200px;
+height: 200px;
+ border-radius: 50%;
   z-index: 2;
 `;
 
@@ -71,12 +75,12 @@ const Icon = styled.div`
 `;
 
 const GetAllProducts = ({ product }) => {
-  const { user, baseUrl} = useContext(AppContext);
+  const { user, baseUrl, cartCount, setCartCount} = useContext(AppContext);
   const [prodId, setProdId] = useState(product._id);
   const [wishlist, setWishlist] = useState([]);
   const [cart, setCart] = useState([]);
   const navigate = useNavigate();
-
+  
   function navigateToProduct(product) {
     navigate(`/products/${product._id}`);
   }
@@ -85,12 +89,12 @@ const GetAllProducts = ({ product }) => {
     setWishlist([...wishlist, prodId]);
     try {
       if (wishlist.includes(prodId)) {
-        alert("Item already in wishlist");
+        toast.error("Item already in wishlist");
       } else {
         await axios.post(`${baseUrl}/users/${user}/wishlist`, {
           prodId: prodId,
         });
-        alert("added to wishlist");
+        toast.success("Added to wishlist");
       }
     } catch (err) {
       console.error(err);
@@ -101,12 +105,13 @@ const GetAllProducts = ({ product }) => {
     setCart([...cart, prodId]);
     try {
       if (cart.includes(prodId)) {
-        alert("Item already in cart");
+        toast.error("Item already in cart");
       } else {
         await axios.post(`${baseUrl}/users/${user}/cart`, {
           prodId: prodId,
         });
-        alert("added to cart");
+        setCartCount(cartCount + 1);
+        toast.success("added to cart");
       }
     } catch (err) {
       console.error(err);
@@ -115,6 +120,7 @@ const GetAllProducts = ({ product }) => {
 
   return (
     <>
+      <ToastContainer />
     <Container>
       <Circle />
       <Image src={product.images} />

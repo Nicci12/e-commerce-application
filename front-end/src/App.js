@@ -29,6 +29,7 @@ function App() {
   const [price, setPrice] = useState("");
   const [sizes, setSizes] = useState("");
   const [filter, setFilter] = useState([]);
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
     const token = JSON.parse(localStorage.getItem("token"));
@@ -134,7 +135,7 @@ const handleCategorySelection = (category, value) => {
 
   return (
     <>
-      <AppContext.Provider value={{ baseUrl, handleCategorySelection, filteredProducts, token, setProductsList, setToken, logged, setLogged, productsList, setProductsList, user, setUser, prodId, setProdId, fetchProducts,  color,setColor, gender, setGender, price, setPrice, sizes, setSizes,item, setItem, setFilter, filter}}>
+      <AppContext.Provider value={{ baseUrl, handleCategorySelection, filteredProducts, token, setProductsList, setToken, logged, setLogged, productsList, setProductsList, user, setUser, prodId, setProdId, fetchProducts,  color,setColor, gender, setGender, price, setPrice, sizes, setSizes,item, setItem, setFilter, filter, cartCount, setCartCount}}>
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />

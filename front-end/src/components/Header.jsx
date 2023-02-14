@@ -140,7 +140,7 @@ const BlocTocWrapper = styled.div`
 `;
 
 const Header = () => {
-  const { logged, setLogged } = useContext(appContext);
+  const { logged, setLogged , cartCount } = useContext(appContext);
   const navigate = useNavigate();
 
   const [windowWidth, setWindowWidth] = useState();
@@ -252,7 +252,7 @@ const Header = () => {
               <MenuItem onClick={Logging}>Sign In</MenuItem>
             )}
             <MenuItem>
-              <Badge badgeContent={4} color="primary">
+              <Badge badgeContent={cartCount} color="primary">
                 <ShoppingCartOutlined onClick={Cart} />
               </Badge>
             </MenuItem>
