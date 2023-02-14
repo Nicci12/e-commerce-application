@@ -92,9 +92,14 @@ const handleCategorySelection = (category, value) => {
     productsList.filter((product) => product.item === "dress")
     );
   }
-  else if( category === "item" && value === "jean"){
+  else if( category === "item" && value === "Jeans"){
     setFilteredProducts(
-    productsList.filter((product) => product.item === "jean")
+    productsList.filter((product) => product.item === "Jeans")
+    );
+  }
+  else if( category === "sizes" && value === "S"){
+    setFilteredProducts(
+    productsList.filter((product) => product.sizes === "S")
     );
   }
   else if( category === "color" && value === "pink"){

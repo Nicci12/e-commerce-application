@@ -16,12 +16,13 @@ const Button = styled.button`
 `;
 
 const FilterButton = styled.button`
+  width: 50%;
   border: none;
   padding: 10px 10px;
   background-color: teal;
   color: white;
   cursor: pointer;
-  margin: 20px 10px 0 24px;
+  margin: 20px 10px 10px 10px;
 `;
 
 const Conatiner = styled.div`
@@ -30,6 +31,20 @@ const Conatiner = styled.div`
   width: 350px;
 `;
 
+const StyledDropdownButton = styled(DropdownButton).attrs(() => ({
+  bsPrefix: "dropdown",
+}))`
+    .dropdown {
+      width: 50%;
+      border: none;
+      padding: 10px 10px;
+      background-color: teal;
+      color: white;
+      cursor: pointer;
+      margin: 20px 10px 10px 10px;
+      }
+    }
+  `;
 function Filter() {
   const { handleCategorySelection } = useContext(AppContext);
   const [isOpen, setIsOpen] = useState(false);
@@ -48,19 +63,38 @@ function Filter() {
                 <FilterButton onClick={() => handleCategorySelection("all")}>
                   All
                 </FilterButton>
-                <DropdownButton id="dropdown-item-button" title="Items">
+                <StyledDropdownButton id="dropdown-item-button" title="Items">
                   <Dropdown.Item
+                    className="my-dropdown-item"
                     as="button"
                     onClick={() => handleCategorySelection("item", "dress")}>
                     Dress
                   </Dropdown.Item>
                   <Dropdown.Item
+                    className="my-dropdown-item"
                     as="button"
-                    onClick={() => handleCategorySelection("item", "jeans")}>
+                    onClick={() => handleCategorySelection("item", "Jeans")}>
                     Jeans
                   </Dropdown.Item>
-                </DropdownButton>
-                <DropdownButton id="dropdown-item-button" title="Colors">
+                </StyledDropdownButton>
+                <StyledDropdownButton id="dropdown-item-button" title="Sizes">
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() => handleCategorySelection("sizes", "small")}>
+                    Small
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() => handleCategorySelection("sizes", "medium")}>
+                    Medium
+                  </Dropdown.Item>
+                  <Dropdown.Item
+                    as="button"
+                    onClick={() => handleCategorySelection("sizes", "large")}>
+                    Large
+                  </Dropdown.Item>
+                </StyledDropdownButton>
+                <StyledDropdownButton id="dropdown-item-button" title="Colors">
                   <Dropdown.Item
                     as="button"
                     onClick={() => handleCategorySelection("color", "pink")}>
@@ -71,8 +105,8 @@ function Filter() {
                     onClick={() => handleCategorySelection("color", "green")}>
                     Green
                   </Dropdown.Item>
-                </DropdownButton>
-                <DropdownButton id="dropdown-item-button" title="Colors">
+                </StyledDropdownButton>
+                <StyledDropdownButton id="dropdown-item-button" title="Gender">
                   <Dropdown.Item
                     as="button"
                     onClick={() => handleCategorySelection("gender", "male")}>
@@ -88,7 +122,7 @@ function Filter() {
                     onClick={() => handleCategorySelection("gender", "both")}>
                     Both
                   </Dropdown.Item>
-                </DropdownButton>
+                </StyledDropdownButton>
               </Conatiner>
             </OffcanvasBody>
           </Offcanvas>
