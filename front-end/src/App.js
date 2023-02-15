@@ -10,6 +10,7 @@ import AppContext from "./context/appContext";
 import axios from "axios";
 import WishList from "./page/WishList";
 import Product from "./page/Product";
+import Payment from "./page/Payment";
 
 function App() {
   const baseUrl = "http://localhost:8080";
@@ -175,6 +176,7 @@ function App() {
             <Route path="/products/:id" element={<Product />} />
             <Route path="/users/:id/wishlist" element={<WishList />} />
             <Route path="/users/cart" element={<Cart />} />
+            <Route path="/users/payment" element={<Payment />} />
           </Routes>
         </BrowserRouter>
       </AppContext.Provider>

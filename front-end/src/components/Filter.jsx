@@ -5,6 +5,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import DropdownButton from "react-bootstrap/DropdownButton";
 import { Offcanvas, OffcanvasHeader, OffcanvasBody } from "reactstrap";
 
+
 const Button = styled.button`
   width: 20%;
   border: none;
@@ -63,6 +64,7 @@ function Filter() {
                 <FilterButton onClick={() => handleCategorySelection("all")}>
                   All
                 </FilterButton>
+                
                 <StyledDropdownButton id="dropdown-item-button" title="Items">
                   <Dropdown.Item
                     className="my-dropdown-item"

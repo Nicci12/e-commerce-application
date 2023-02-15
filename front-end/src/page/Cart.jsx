@@ -4,7 +4,6 @@ import { Add, Remove } from "@mui/icons-material";
 import styled from "styled-components";
 import Announcement from "../components/Announcement";
 import DeleteIcon from "@mui/icons-material/Delete";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useNavigate } from "react-router-dom";
@@ -278,6 +277,10 @@ const Cart = () => {
   function Return() {
     navigate("/products");
   }
+
+  function Payment(){
+    navigate("/users/payment")
+  }
   return (
     <>
       <Container>
@@ -337,7 +340,7 @@ const Cart = () => {
               <SummaryItem type="total">
                 <SummaryItemPrice>Total: ${totalPrice}</SummaryItemPrice>
               </SummaryItem>
-              <Button>CHECKOUT NOW</Button>
+              <Button onClick={Payment}>CHECKOUT NOW</Button>
             </Summary>
           </Bottom>
           {cartItems.length === 0 ? (
