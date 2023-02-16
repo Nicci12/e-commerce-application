@@ -1,9 +1,16 @@
 import React, { useContext, useState, useEffect } from "react";
 import AppContext from "../context/appContext";
+import Header from "../components/Header";
 import braintree from "braintree-web";
-import { Form, Button, Row, Col } from 'react-bootstrap';
+import { Form, Button, Row, Col } from "react-bootstrap";
 import styled from "styled-components";
-
+import {
+  ApplePay,
+  GooglePay,
+  CreditCard,
+  PaymentForm,
+} from "react-square-web-payments-sdk";
+import axios from "axios";
 
 const Container = styled.div`
   display: flex;
@@ -25,60 +32,55 @@ const Container = styled.div`
 `;
 
 const Toast = styled.div`
-position: fixed;
-top: 15px;
-right: 15px;
-z-index: 9999;
-  `
-
+  position: fixed;
+  top: 15px;
+  right: 15px;
+  z-index: 9999;
+`;
 
 function Payment() {
   const { baseUrl } = useContext(AppContext);
-  const [clientToken, setClientToken] = useState(null);
-  const [paymentMethodNonce, setPaymentMethodNonce] = useState(null);
-
-  useEffect(() => {
-    // Fetch the client token from your Node.js server
-    fetch(`${baseUrl}/users/payment`)
-      .then((response) => response.text())
-      .then((token) => setClientToken(token))
-      .catch((error) => console.error(error));
-  }, []);
-
-  const handlePayment = () => {
-    braintree.client.create(
-      {
-        authorization: clientToken,
-      },
-      (err, clientInstance) => {
-        clientInstance.request(
-          {
-            endpoint: "payment_methods/credit_cards",
-            method: "post",
-            data: {
-              creditCard: {
-                number: "4111111111111111",
-                expirationDate: "10/2024",
-              },
-            },
-          },
-          (err, response) => {
-            setPaymentMethodNonce(response.creditCards[0].nonce);
-          }
-        );
-      }
-    );
-  };
 
   return (
     <>
+      <Header />
       <Container className="bootstrap-basic">
-        <Form noValidate>
+        <PaymentForm
+          applicationId="sandbox-sq0idb-9fZ6gQbL10zd25z3Rn08VA"
+          cardTokenizeResponseReceived={async (token, verifiedBuyer) => {
+            const response = await fetch(`${baseUrl}/users/checkout`, {
+              method: "POST",
+              headers: {
+                "Content-type": "application/json",
+              },
+              body: JSON.stringify({
+                sourceId: token.token,
+              }),
+            });
+            console.log(await response.json());
+          }}
+          locationId="LPVCEMNYXBZAS"
+          createPaymentRequest={() => ({
+            countryCode: "US",
+            currencyCode: "USD",
+            total: {
+              amount: "1.00",
+              label: "Total",
+            },
+          })}>
+          <ApplePay />
+          <GooglePay />
+          <CreditCard />
+        </PaymentForm>
+
+        {/* <Form noValidate>
           <Row>
             <Col md={6} className="mb-3">
               <Form.Label htmlFor="cc-name">Cardholder Name</Form.Label>
               <Form.Control
                 type="name"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
                 id="name"
                 placeholder="Name"
                 isInvalid={false}
@@ -94,6 +96,8 @@ function Payment() {
               <Form.Label>Email</Form.Label>
               <Form.Control
                 type="email"
+                onChange={(e) => setEmail(e.target.value)}
+                value={email}
                 id="email"
                 placeholder="you@example.com"
                 isInvalid={false}
@@ -109,6 +113,8 @@ function Payment() {
               <Form.Label>Credit card number</Form.Label>
               <Form.Control
                 type="text"
+                onChange={(e) => setNumber(e.target.value)}
+                value={number}
                 id="card"
                 placeholder="Credit Card Number"
                 isInvalid={false}
@@ -121,6 +127,8 @@ function Payment() {
               <Form.Label>Expiration</Form.Label>
               <Form.Control
                 type="text"
+                onChange={(e) => setExpiration(e.target.value)}
+                value={expiration}
                 id="expiration"
                 placeholder="Expiration"
                 isInvalid={false}
@@ -134,6 +142,8 @@ function Payment() {
               <Form.Control
                 type="text"
                 id="cvv"
+                value={cvv}
+                onChange={(e) => setCvv(e.target.value)}
                 placeholder="CVV"
                 isInvalid={false}
               />
@@ -145,13 +155,13 @@ function Payment() {
 
           <hr className="mb-4" />
           <div className="text-center">
-            <Button variant="primary" size="lg" type="submit">
+            <Button variant="primary" size="lg" type="submit" onClick={handlePayment}>
               Pay with <span id="card-brand">Card</span>
             </Button>
           </div>
-        </Form>
+        </Form> */}
       </Container>
-      <div
+      {/* <div
         aria-live="polite"
         aria-atomic="true"
         style={{ position: 'relative', minHeight: '200px' }}
@@ -179,8 +189,8 @@ function Payment() {
             Next, submit the payment method nonce to your server.
           </div>
         </Toast>
-      </div>
+      </div> */}
     </>
   );
-  }
+}
 export default Payment;
